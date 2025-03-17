@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
         try {
           // First attempt an exact match
           tableData = await getTableData(companyName, eventName);
-        } catch (_) {
+        } catch {
           // If exact match fails, try to find the event by case-insensitive matching
           console.log('Exact match failed, trying case-insensitive match');
           
