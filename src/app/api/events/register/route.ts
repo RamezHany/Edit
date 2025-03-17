@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const {
       companyName: rawCompanyName,
-      eventName,
+      eventName: rawEventName,
       name,
       phone,
       email,
@@ -18,8 +18,9 @@ export async function POST(request: NextRequest) {
       nationalId,
     } = body;
     
-    // Ensure company name is properly decoded
+    // Ensure company name and event name are properly decoded
     const companyName = decodeURIComponent(rawCompanyName);
+    const eventName = decodeURIComponent(rawEventName);
     
     console.log('Registration request received:', {
       companyName,
@@ -99,7 +100,39 @@ export async function POST(request: NextRequest) {
       // Check if the event exists
       try {
         console.log('Checking if event exists:', { companyName, eventName });
-        const tableData = await getTableData(companyName, eventName);
+        let tableData;
+        
+        try {
+          // First attempt an exact match
+          tableData = await getTableData(companyName, eventName);
+        } catch (error) {
+          // If exact match fails, try to find the event by case-insensitive matching
+          console.log('Exact match failed, trying case-insensitive match');
+          
+          // Get all sheet data
+          const sheetData = await getSheetData(companyName);
+          
+          // Find the event by name (case-insensitive)
+          const normalizedEventName = eventName.trim().toLowerCase();
+          let exactEventName = null;
+          
+          for (let i = 0; i < sheetData.length; i++) {
+            if (sheetData[i].length === 1 && 
+                sheetData[i][0] && 
+                sheetData[i][0].trim().toLowerCase() === normalizedEventName) {
+              exactEventName = sheetData[i][0];
+              break;
+            }
+          }
+          
+          if (!exactEventName) {
+            throw new Error(`Event ${eventName} not found in company ${companyName}`);
+          }
+          
+          // Use the exact event name from the sheet
+          console.log(`Found matching event with exact name: ${exactEventName}`);
+          tableData = await getTableData(companyName, exactEventName);
+        }
         
         if (!tableData || tableData.length === 0) {
           console.error(`Event ${eventName} not found in company ${companyName}`);

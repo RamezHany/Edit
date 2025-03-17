@@ -105,7 +105,7 @@ export default function EventRegistrationPage() {
       } catch (error) {
         console.error('Error fetching event details:', error);
         if (!companyDisabled) {
-          setError('Event not found or no longer available');
+          setError('Event not found or registration is closed');
         }
       } finally {
         setLoading(false);
@@ -113,7 +113,7 @@ export default function EventRegistrationPage() {
     };
     
     fetchEventDetails();
-  }, [companyName, eventId, companyDisabled]);
+  }, [companyName, eventId]);
 
   const validateField = (name: string, value: string): string => {
     switch (name) {
@@ -194,7 +194,7 @@ export default function EventRegistrationPage() {
     try {
       console.log('Submitting registration with:', {
         companyName,
-        eventName: event.id, // Use the exact event name from the API
+        eventName: eventId, // Use the exact event ID from the URL
       });
       
       const response = await fetch('/api/events/register', {
@@ -204,7 +204,7 @@ export default function EventRegistrationPage() {
         },
         body: JSON.stringify({
           companyName,
-          eventName: event.id, // Use the exact event name from the API
+          eventName: eventId, // Use the exact event ID from the URL
           ...formData,
         }),
       });

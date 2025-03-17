@@ -233,6 +233,8 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     
     // Try direct match first
     let tableStartIndex = -1;
+    let exactTableName = tableName;
+
     for (let i = 0; i < data.length; i++) {
       if (data[i] && data[i][0] === tableName) {
         console.log(`Found exact match for table ${tableName} at row ${i}`);
@@ -247,7 +249,7 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
       for (let i = 0; i < data.length; i++) {
         if (data[i] && data[i][0] && data[i][0].trim().toLowerCase() === normalizedTableName) {
           console.log(`Found case-insensitive match for table ${tableName} at row ${i}: ${data[i][0]}`);
-          tableName = data[i][0]; // Use the exact table name from the sheet
+          exactTableName = data[i][0]; // Use the exact table name from the sheet
           tableStartIndex = i;
           break;
         }
@@ -275,7 +277,7 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
       }
     }
     
-    console.log(`Table ${tableName} spans from row ${tableStartIndex + 1} to ${tableEndIndex - 1}`);
+    console.log(`Table ${exactTableName} spans from row ${tableStartIndex + 1} to ${tableEndIndex - 1}`);
     
     // Calculate the range to append the data
     const range = `${sheetName}!A${tableEndIndex + 1}`;
