@@ -113,7 +113,7 @@ export default function EventRegistrationPage() {
     };
     
     fetchEventDetails();
-  }, [companyName, eventId]);
+  }, [companyName, eventId, companyDisabled]);
 
   const validateField = (name: string, value: string): string => {
     switch (name) {
