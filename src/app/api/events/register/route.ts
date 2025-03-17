@@ -1,10 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 import { getSheetData, addToTable, getTableData } from '@/lib/sheets';
-
-// Define types for sheet data rows
-type CompanyRow = string[];
-type RegistrationRow = string[];
 
 // POST /api/events/register - Register for an event
 export async function POST(request: NextRequest) {
