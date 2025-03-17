@@ -223,7 +223,7 @@ export const getTableData = async (sheetName: string, tableName: string): Promis
 // Add data to a specific table in a sheet
 export const addToTable = async (sheetName: string, tableName: string, rowData: unknown[]) => {
   try {
-    console.log(`Adding data to table ${tableName} in sheet ${sheetName}`);
+    console.log(`Adding data to table "${tableName}" in sheet "${sheetName}"`);
     const data = await getSheetData(sheetName);
     
     if (!data || data.length === 0) {
@@ -234,10 +234,18 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     // Try direct match first
     let tableStartIndex = -1;
     let exactTableName = tableName;
+    
+    // Log all table names for debugging
+    console.log('All table names in sheet:');
+    for (let i = 0; i < data.length; i++) {
+      if (data[i] && data[i].length === 1 && data[i][0]) {
+        console.log(`- "${data[i][0]}" (row ${i})`);
+      }
+    }
 
     for (let i = 0; i < data.length; i++) {
       if (data[i] && data[i][0] === tableName) {
-        console.log(`Found exact match for table ${tableName} at row ${i}`);
+        console.log(`Found exact match for table "${tableName}" at row ${i}`);
         tableStartIndex = i;
         break;
       }
@@ -248,7 +256,7 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
       const normalizedTableName = tableName.trim().toLowerCase();
       for (let i = 0; i < data.length; i++) {
         if (data[i] && data[i][0] && data[i][0].trim().toLowerCase() === normalizedTableName) {
-          console.log(`Found case-insensitive match for table ${tableName} at row ${i}: ${data[i][0]}`);
+          console.log(`Found case-insensitive match for table "${tableName}" at row ${i}: "${data[i][0]}"`);
           exactTableName = data[i][0]; // Use the exact table name from the sheet
           tableStartIndex = i;
           break;
@@ -257,13 +265,7 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     }
     
     if (tableStartIndex === -1) {
-      console.error(`Table ${tableName} not found in sheet ${sheetName}`);
-      console.log('Available tables:');
-      for (let i = 0; i < data.length; i++) {
-        if (data[i] && data[i].length === 1 && data[i][0]) {
-          console.log(`- ${data[i][0]} (row ${i})`);
-        }
-      }
+      console.error(`Table "${tableName}" not found in sheet "${sheetName}"`);
       throw new Error(`Table ${tableName} not found in sheet ${sheetName}`);
     }
     
@@ -277,10 +279,10 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
       }
     }
     
-    console.log(`Table ${exactTableName} spans from row ${tableStartIndex + 1} to ${tableEndIndex - 1}`);
+    console.log(`Table "${exactTableName}" spans from row ${tableStartIndex + 1} to ${tableEndIndex - 1}`);
     
     // Calculate the range to append the data
-    const range = `${sheetName}!A${tableEndIndex + 1}`;
+    const range = `${sheetName}!A${tableEndIndex}`;
     
     console.log(`Appending data to range: ${range}`);
     

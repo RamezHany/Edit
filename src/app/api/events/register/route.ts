@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
       const companies = companiesData.slice(1); // Skip header row
       
       // Find the company
-      const company = companies.find((row) => row[1] === companyName);
+      const company = companies.find((row: any) => row[1] === companyName);
       
       if (company) {
         const status = company[5] || 'enabled';
@@ -97,47 +97,57 @@ export async function POST(request: NextRequest) {
         }
       }
       
-      // Check if the event exists
-      try {
-        console.log('Checking if event exists:', { companyName, eventName });
-        let tableData;
-        
-        try {
-          // First attempt an exact match
-          tableData = await getTableData(companyName, eventName);
-        } catch {
-          // If exact match fails, try to find the event by case-insensitive matching
-          console.log('Exact match failed, trying case-insensitive match');
-          
-          // Get all sheet data
-          const sheetData = await getSheetData(companyName);
-          
-          // Find the event by name (case-insensitive)
-          const normalizedEventName = eventName.trim().toLowerCase();
-          let exactEventName = null;
-          
-          for (let i = 0; i < sheetData.length; i++) {
-            if (sheetData[i].length === 1 && 
-                sheetData[i][0] && 
-                sheetData[i][0].trim().toLowerCase() === normalizedEventName) {
-              exactEventName = sheetData[i][0];
-              break;
-            }
+      // Find the exact event in the sheet data
+      let exactEventName = null;
+      
+      // First try to find an exact match for the event name
+      for (let i = 0; i < sheetData.length; i++) {
+        if (sheetData[i].length === 1 && sheetData[i][0] === eventName) {
+          exactEventName = sheetData[i][0];
+          console.log(`Found exact match for event: ${exactEventName} at row ${i}`);
+          break;
+        }
+      }
+      
+      // If no exact match, try case-insensitive
+      if (!exactEventName) {
+        const normalizedEventName = eventName.trim().toLowerCase();
+        for (let i = 0; i < sheetData.length; i++) {
+          if (sheetData[i].length === 1 && 
+              sheetData[i][0] && 
+              sheetData[i][0].trim().toLowerCase() === normalizedEventName) {
+            exactEventName = sheetData[i][0];
+            console.log(`Found case-insensitive match for event: ${exactEventName} at row ${i}`);
+            break;
           }
-          
-          if (!exactEventName) {
-            throw new Error(`Event ${eventName} not found in company ${companyName}`);
+        }
+      }
+      
+      // If still no match, log all tables for debugging
+      if (!exactEventName) {
+        console.error(`Event ${eventName} not found in company ${companyName}`);
+        console.log('Available tables in sheet:');
+        for (let i = 0; i < sheetData.length; i++) {
+          if (sheetData[i].length === 1 && sheetData[i][0]) {
+            console.log(`- ${sheetData[i][0]} (row ${i})`);
           }
-          
-          // Use the exact event name from the sheet
-          console.log(`Found matching event with exact name: ${exactEventName}`);
-          tableData = await getTableData(companyName, exactEventName);
         }
         
+        return NextResponse.json(
+          { error: 'Event not found' },
+          { status: 404 }
+        );
+      }
+      
+      // Now we have the exact event name, get the table data
+      try {
+        console.log(`Getting table data for event: ${exactEventName}`);
+        const tableData = await getTableData(companyName, exactEventName);
+        
         if (!tableData || tableData.length === 0) {
-          console.error(`Event ${eventName} not found in company ${companyName}`);
+          console.error(`Table data empty for event ${exactEventName} in company ${companyName}`);
           return NextResponse.json(
-            { error: 'Event not found' },
+            { error: 'Event data not found' },
             { status: 404 }
           );
         }
@@ -162,7 +172,7 @@ export async function POST(request: NextRequest) {
         
         // Find registration with matching email or phone
         const existingRegistration = registrationData.find(
-          (row) => row[2] === email || row[1] === phone
+          (row: any) => row[2] === email || row[1] === phone
         );
         
         if (existingRegistration) {
@@ -177,12 +187,12 @@ export async function POST(request: NextRequest) {
         
         console.log('Adding registration to table:', {
           companyName,
-          eventName,
+          eventName: exactEventName,
           name,
           email,
         });
         
-        await addToTable(companyName, eventName, [
+        await addToTable(companyName, exactEventName, [
           name,
           phone,
           email,
@@ -202,14 +212,15 @@ export async function POST(request: NextRequest) {
           registration: {
             name,
             email,
+            eventName: exactEventName,
             registrationDate,
           },
         });
       } catch (error) {
-        console.error('Error checking event:', error);
+        console.error('Error processing registration:', error);
         return NextResponse.json(
-          { error: 'Event not found' },
-          { status: 404 }
+          { error: 'Failed to process registration' },
+          { status: 500 }
         );
       }
     } catch (error) {
