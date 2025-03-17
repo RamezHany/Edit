@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSheetData, addToTable, getTableData } from '@/lib/sheets';
 
+// Define types for sheet data rows
+type CompanyRow = string[];
+type RegistrationRow = string[];
+
 // POST /api/events/register - Register for an event
 export async function POST(request: NextRequest) {
   try {
@@ -85,7 +89,7 @@ export async function POST(request: NextRequest) {
       const companies = companiesData.slice(1); // Skip header row
       
       // Find the company
-      const company = companies.find((row: any) => row[1] === companyName);
+      const company = companies.find((row: CompanyRow) => row[1] === companyName);
       
       if (company) {
         const status = company[5] || 'enabled';
@@ -172,7 +176,7 @@ export async function POST(request: NextRequest) {
         
         // Find registration with matching email or phone
         const existingRegistration = registrationData.find(
-          (row: any) => row[2] === email || row[1] === phone
+          (row: RegistrationRow) => row[2] === email || row[1] === phone
         );
         
         if (existingRegistration) {
