@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 import { getSheetData, addToTable, getTableData } from '@/lib/sheets';
 
@@ -89,7 +90,7 @@ export async function POST(request: NextRequest) {
       const companies = companiesData.slice(1); // Skip header row
       
       // Find the company
-      const company = companies.find((row: CompanyRow) => row[1] === companyName);
+      const company = companies.find((row: string[]) => row[1] === companyName);
       
       if (company) {
         const status = company[5] || 'enabled';
@@ -176,7 +177,7 @@ export async function POST(request: NextRequest) {
         
         // Find registration with matching email or phone
         const existingRegistration = registrationData.find(
-          (row: RegistrationRow) => row[2] === email || row[1] === phone
+          (row: string[]) => row[2] === email || row[1] === phone
         );
         
         if (existingRegistration) {
