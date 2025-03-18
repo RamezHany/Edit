@@ -354,27 +354,30 @@ export default function EventRegistrationPage() {
         }
         
         .form-label {
-          font-size: 0.875rem;
-          font-weight: 500;
+          font-size: 0.9rem;
+          font-weight: 600;
           margin-bottom: 0.5rem;
-          color: #505050;
+          color: #4361ee;
           display: block;
+          letter-spacing: 0.02em;
         }
         
         .form-input {
           width: 100%;
-          padding: 0.85rem 1rem;
-          border-radius: 8px;
+          padding: 0.9rem 1rem;
+          border-radius: 10px;
           border: 1px solid #e2e8f0;
           background-color: white;
           transition: all 0.2s;
-          font-size: 0.95rem;
+          font-size: 1rem;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         
         .form-input:focus {
           outline: none;
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 1px #3b82f6;
+          border-color: #4361ee;
+          box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+          transform: translateY(-1px);
         }
         
         .form-input::placeholder {
@@ -382,54 +385,90 @@ export default function EventRegistrationPage() {
         }
         
         .section-title {
-          font-size: 1.125rem;
-          font-weight: 600;
-          color: #2d3748;
-          margin-bottom: 1.25rem;
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #3a0ca3;
+          margin-bottom: 1.5rem;
           padding-bottom: 0.5rem;
-          border-bottom: 1px solid #e2e8f0;
+          border-bottom: 2px solid #4361ee;
+          display: inline-block;
         }
         
         .radio-label {
           display: flex;
           align-items: center;
-          padding: 0.75rem 1.25rem;
-          border-radius: 8px;
+          padding: 0.8rem 1.25rem;
+          border-radius: 10px;
           border: 1px solid #e2e8f0;
           background-color: white;
           transition: all 0.2s;
           cursor: pointer;
+          font-weight: 500;
+          position: relative;
+          overflow: hidden;
         }
         
-        .radio-label-selected {
-          background-color: #ebf5ff;
-          border-color: #bfdbfe;
+        .radio-label::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 100%;
+          background-color: rgba(67, 97, 238, 0.08);
+          transition: width 0.3s ease;
+          z-index: 0;
         }
         
-        .btn-primary {
-          background-color: #1a56db;
-          color: white;
-          font-weight: 600;
-          padding: 0.75rem 1.5rem;
-          border-radius: 8px;
-          transition: all 0.2s;
-          border: none;
-          cursor: pointer;
+        .radio-label:hover::before {
           width: 100%;
         }
         
+        .radio-label-selected {
+          background-color: #4361ee;
+          border-color: #3a0ca3;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(67, 97, 238, 0.15);
+        }
+        
+        .radio-label-selected span {
+          color: white !important;
+        }
+        
+        .btn-primary {
+          background-color: #4361ee;
+          color: white;
+          font-weight: 600;
+          padding: 0.9rem 1.5rem;
+          border-radius: 10px;
+          transition: all 0.3s;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          font-size: 0.95rem;
+        }
+        
         .btn-primary:hover {
-          background-color: #1e429f;
+          background-color: #3a0ca3;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 15px -3px rgba(67, 97, 238, 0.25);
         }
         
         /* Improved card shadow */
         .card-shadow {
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+          transition: all 0.3s ease;
+        }
+        
+        .card-shadow:hover {
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
         }
 
         @keyframes shine {
           0% {
-            transform: translateX(0);
+            transform: translateX(-100%);
           }
           100% {
             transform: translateX(100%);
@@ -439,6 +478,18 @@ export default function EventRegistrationPage() {
         .animate-shine {
           animation: shine 3s infinite linear;
         }
+        
+        .emoji-icon {
+          display: inline-block;
+          margin-right: 0.5rem;
+        }
+        
+        .highlight-text {
+          background: linear-gradient(120deg, #3a0ca3, #4361ee);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 700;
+        }
       `}</style>
       
       {/* Main Content */}
@@ -446,18 +497,19 @@ export default function EventRegistrationPage() {
         
         {/* Header Section */}
         <header className="mb-10 text-center">
-          <div className="mb-3">
+          <div className="mb-4">
             {companyName && (
-              <div className="text-sm uppercase tracking-widest mb-1 font-medium text-blue-600">
+              <div className="text-sm uppercase tracking-widest mb-1 font-bold text-blue-600">
                 {companyName}
-          </div>
+              </div>
             )}
-            <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
-              {event?.name || 'Event Registration'}
+            <h1 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600 tracking-tight">
+              {event?.name || 'Event Registration'} 
+              <span className="emoji-icon">🚀</span>
             </h1>
           </div>
           {event?.date && (
-            <div className="text-sm text-gray-500 flex items-center justify-center">
+            <div className="text-sm bg-indigo-50 inline-flex rounded-full px-3 py-1 items-center font-medium text-indigo-700">
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -467,27 +519,32 @@ export default function EventRegistrationPage() {
                 month: 'long',
                 day: 'numeric'
               })}
-          </div>
+            </div>
           )}
         </header>
         
         {/* Form Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-shadow">
           {event?.image && (
-            <div className="w-full h-64 relative">
+            <div className="w-full h-80 relative">
               <Image
                 src={event.image}
                 alt={`${event.name} Event`}
                 fill
                 style={{ objectFit: 'cover' }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
               <div className="absolute bottom-0 left-0 w-full p-6">
-                <h2 className="text-2xl font-bold text-white drop-shadow-sm">
-                  Join us for this exclusive event
-              </h2>
+                <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg inline-block">
+                  <h2 className="text-2xl font-bold text-white drop-shadow-sm">
+                    Join us for this exclusive event <span className="emoji-icon">✨</span>
+                  </h2>
+                  <p className="text-white/90 mt-2 max-w-lg text-sm">
+                    Register now and be part of something amazing with like-minded professionals!
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
           )}
           
           <div className="p-6 md:p-8">
@@ -550,11 +607,11 @@ export default function EventRegistrationPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Registration Successful</h3>
-                <p className="text-gray-600 mb-8">Thank you for registering for this event!</p>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">You're In! <span className="emoji-icon">🎉</span></h3>
+                <p className="text-gray-600 mb-8">Thanks for registering! We can't wait to see you there!</p>
                 
-                <div className="mb-8 text-left max-w-md mx-auto bg-blue-50 rounded-lg p-5">
-                  <h4 className="font-medium text-gray-900 mb-3">Event Details</h4>
+                <div className="mb-8 text-left max-w-md mx-auto bg-indigo-50 rounded-lg p-5">
+                  <h4 className="font-medium text-indigo-900 mb-3">Event Details</h4>
                   <p className="text-sm text-gray-600 mb-3">
                     <span className="font-medium">Date:</span> {event?.date ? new Date(event.date).toLocaleDateString('en-US', {
                     weekday: 'long',
@@ -570,7 +627,7 @@ export default function EventRegistrationPage() {
               
                 <Link
                   href={`/${companyName}/${eventId}`}
-                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all duration-200"
+                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 shadow-md transition-all duration-200"
                 >
                   Return to Event
                 </Link>
@@ -594,7 +651,7 @@ export default function EventRegistrationPage() {
 
                 {/* Personal Information */}
                 <div>
-                  <h3 className="section-title">Personal Information</h3>
+                  <h3 className="section-title">Personal Information <span className="emoji-icon">👤</span></h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Name */}
                     <div>
@@ -701,7 +758,7 @@ export default function EventRegistrationPage() {
 
                 {/* Educational Information */}
                 <div>
-                  <h3 className="section-title">Educational Information</h3>
+                  <h3 className="section-title">Educational Information <span className="emoji-icon">🎓</span></h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* University */}
                     <div>
@@ -759,7 +816,7 @@ export default function EventRegistrationPage() {
                           onChange={handleChange}
                           disabled={submitting}
                         />
-                        <span className={`${formData.gender === 'male' ? 'text-blue-800' : 'text-gray-700'}`}>Male</span>
+                        <span className={`${formData.gender === 'male' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Male</span>
                       </label>
                       <label className={`flex-1 radio-label ${formData.gender === 'female' ? 'radio-label-selected' : ''}`}>
                       <input
@@ -771,7 +828,7 @@ export default function EventRegistrationPage() {
                           onChange={handleChange}
                           disabled={submitting}
                         />
-                        <span className={`${formData.gender === 'female' ? 'text-blue-800' : 'text-gray-700'}`}>Female</span>
+                        <span className={`${formData.gender === 'female' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Female</span>
                       </label>
                 </div>
               </div>
@@ -790,7 +847,7 @@ export default function EventRegistrationPage() {
                           onChange={handleChange}
                           disabled={submitting}
                         />
-                        <span className={`${formData.status === 'student' ? 'text-blue-800' : 'text-gray-700'}`}>Student</span>
+                        <span className={`${formData.status === 'student' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Student</span>
                       </label>
                       <label className={`flex-1 radio-label ${formData.status === 'graduate' ? 'radio-label-selected' : ''}`}>
                       <input
@@ -802,17 +859,17 @@ export default function EventRegistrationPage() {
                           onChange={handleChange}
                           disabled={submitting}
                         />
-                        <span className={`${formData.status === 'graduate' ? 'text-blue-800' : 'text-gray-700'}`}>Graduate</span>
+                        <span className={`${formData.status === 'graduate' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Graduate</span>
                       </label>
                   </div>
               </div>
               </div>
 
                 {/* Submit Button */}
-                <div className="pt-4">
+                <div className="pt-6">
                 <button
                   type="submit"
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                    className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
                   disabled={submitting}
                 >
                     {submitting ? (
@@ -824,9 +881,10 @@ export default function EventRegistrationPage() {
                         Processing...
                       </div>
                     ) : (
-                      "Register Now"
+                      "JOIN NOW! 🚀"
                     )}
                 </button>
+                <p className="text-center text-sm text-gray-500 mt-3">By registering, you're taking an awesome step!</p>
               </div>
             </form>
           )}
@@ -835,7 +893,7 @@ export default function EventRegistrationPage() {
         
         {/* Footer */}
         <div className="mt-10 text-center">
-          <div className="inline-flex items-center justify-center text-xs text-gray-500">
+          <div className="inline-flex items-center justify-center text-xs text-gray-500 bg-blue-50 px-4 py-2 rounded-full">
             <svg className="w-3 h-3 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
