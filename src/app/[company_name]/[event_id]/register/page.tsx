@@ -533,17 +533,6 @@ export default function EventRegistrationPage() {
                 fill
                 style={{ objectFit: 'cover' }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 w-full p-6">
-                <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg inline-block">
-                  <h2 className="text-2xl font-bold text-white drop-shadow-sm">
-                    Join us for this exclusive event <span className="emoji-icon">✨</span>
-                  </h2>
-                  <p className="text-white/90 mt-2 max-w-lg text-sm">
-                    Register now and be part of something amazing with like-minded professionals!
-                  </p>
-                </div>
-              </div>
             </div>
           )}
           
@@ -714,7 +703,7 @@ export default function EventRegistrationPage() {
                     <div>
                       <label htmlFor="age" className="form-label">Age</label>
                       <input 
-                        type="text" 
+                        type="number" 
                         id="age" 
                         name="age" 
                         className="form-input" 
@@ -723,6 +712,8 @@ export default function EventRegistrationPage() {
                             onChange={handleChange}
                         disabled={submitting}
                         required
+                        min="1"
+                        max="100"
                       />
                       {formErrors.age && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.age}</p>
