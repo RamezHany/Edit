@@ -64,6 +64,39 @@ export default function EventRegistrationPage() {
   const [event, setEvent] = useState<Event | null>(null);
   const [eventDisabled, setEventDisabled] = useState(false);
   const [companyDisabled, setCompanyDisabled] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  // Get the theme from localStorage on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      setTheme('light');
+    }
+  }, []);
+
+  // Update localStorage when theme changes
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    document.documentElement.classList.toggle('light-theme', theme === 'light');
+    
+    // Apply theme to document body
+    if (typeof document !== 'undefined') {
+      if (theme === 'light') {
+        document.body.classList.add('light-theme');
+        document.body.classList.remove('dark-theme');
+      } else {
+        document.body.classList.add('dark-theme');
+        document.body.classList.remove('light-theme');
+      }
+    }
+  }, [theme]);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    setTheme((prevTheme: 'dark' | 'light') => prevTheme === 'dark' ? 'light' : 'dark');
+  };
 
   useEffect(() => {
     // Fetch event details to verify it exists and get the image
@@ -261,16 +294,16 @@ export default function EventRegistrationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-xl">Loading...</div>
+      <div className={`min-h-screen flex items-center justify-center ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
+        <div className={`text-xl ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>Loading...</div>
       </div>
     );
   }
 
   if (error && !submitting) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
+      <div className={`min-h-screen flex items-center justify-center ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
+        <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} p-8 rounded-lg shadow-md w-full max-w-md text-center`}>
           <div className="text-red-500 text-xl mb-4">{error}</div>
           <Link href={`/${companyName}/${eventId}`} className="text-blue-500 hover:underline">
             Return to Event
@@ -282,15 +315,15 @@ export default function EventRegistrationPage() {
 
   if (eventDisabled || companyDisabled) {
     return (
-      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+      <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'} py-12 px-4 sm:px-6 lg:px-8`}>
+        <div className={`max-w-md mx-auto ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-md overflow-hidden`}>
           <div className="p-6">
             <div className="flex items-center justify-center">
               <div className="text-center">
                 <h2 className="text-2xl font-bold text-red-600 mb-4">
                   {eventDisabled ? 'Registration Disabled' : 'Company Inactive'}
                 </h2>
-                <p className="text-gray-600 mb-6">
+                <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
                   {eventDisabled
                     ? 'Registration for this event is currently disabled. Please contact the organizer for more information.'
                     : 'This company\'s events are currently not available. Please contact the administrator for more information.'}
@@ -310,13 +343,51 @@ export default function EventRegistrationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-[#1f2937] to-blue-900 relative overflow-hidden">
+    <div className={`min-h-screen relative overflow-hidden ${theme === 'dark' ? 'bg-gradient-to-br from-purple-900 via-[#1f2937] to-blue-900' : 'bg-gradient-to-br from-blue-100 via-white to-purple-100'}`}>
+      {/* Add CSS for theme transitions */}
+      <style jsx global>{`
+        body {
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body.light-theme {
+          color: #1f2937;
+          background-color: #f9fafb;
+        }
+        
+        body.dark-theme {
+          color: #f9fafb;
+          background-color: #1f2937;
+        }
+        
+        .transition-colors {
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+      `}</style>
+      
+      {/* Theme toggle button */}
+      <button 
+        onClick={toggleTheme} 
+        className={`absolute top-4 right-4 z-50 p-2 rounded-full ${theme === 'dark' ? 'bg-yellow-300 text-gray-900' : 'bg-gray-800 text-yellow-300'} transition-all duration-300 hover:scale-110`}
+        aria-label="Toggle theme"
+      >
+        {theme === 'dark' ? (
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        )}
+      </button>
+
       {/* Animated background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
-        <div className="absolute w-24 h-24 bg-blue-500 rounded-full top-1/4 left-1/4 animate-pulse"></div>
-        <div className="absolute w-16 h-16 bg-purple-500 rounded-full top-3/4 left-1/3 animate-ping"></div>
-        <div className="absolute w-32 h-32 bg-pink-500 rounded-full bottom-1/4 right-1/4 animate-pulse"></div>
-        <div className="absolute w-20 h-20 bg-yellow-500 rounded-full top-1/2 right-1/3 animate-bounce"></div>
+        <div className={`absolute w-24 h-24 ${theme === 'dark' ? 'bg-blue-500' : 'bg-blue-400'} rounded-full top-1/4 left-1/4 animate-pulse`}></div>
+        <div className={`absolute w-16 h-16 ${theme === 'dark' ? 'bg-purple-500' : 'bg-purple-400'} rounded-full top-3/4 left-1/3 animate-ping`}></div>
+        <div className={`absolute w-32 h-32 ${theme === 'dark' ? 'bg-pink-500' : 'bg-pink-400'} rounded-full bottom-1/4 right-1/4 animate-pulse`}></div>
+        <div className={`absolute w-20 h-20 ${theme === 'dark' ? 'bg-yellow-500' : 'bg-yellow-400'} rounded-full top-1/2 right-1/3 animate-bounce`}></div>
       </div>
       
         {event?.image && (
@@ -371,21 +442,21 @@ export default function EventRegistrationPage() {
         )}
       
       {/* الفورم بتصميم محسن للموبايل */}
-      <div className="w-[98%] md:w-[90%] lg:w-[75%] mx-auto bg-[#353c49]/95 backdrop-blur-sm rounded-t-none rounded-b-3xl shadow-2xl overflow-hidden -mt-2 md:-mt-4 border-t-0 border-x border-b border-purple-500/30 relative z-30"
+      <div className={`w-[98%] md:w-[90%] lg:w-[75%] mx-auto ${theme === 'dark' ? 'bg-[#353c49]/95 border-purple-500/30' : 'bg-white/95 border-purple-300/50'} backdrop-blur-sm rounded-t-none rounded-b-3xl shadow-2xl overflow-hidden -mt-2 md:-mt-4 border-t-0 border-x border-b relative z-30`}
            style={{ marginTop: event?.image ? "-1rem" : "1rem" }}>
         <div className="p-4 md:p-6 relative">
           {/* عناصر الزخرفة */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-bl-full"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-500/10 to-cyan-500/10 rounded-tr-full"></div>
+          <div className={`absolute top-0 right-0 w-32 h-32 ${theme === 'dark' ? 'bg-gradient-to-br from-pink-500/10 to-purple-500/10' : 'bg-gradient-to-br from-pink-300/20 to-purple-300/20'} rounded-bl-full`}></div>
+          <div className={`absolute bottom-0 left-0 w-24 h-24 ${theme === 'dark' ? 'bg-gradient-to-tr from-blue-500/10 to-cyan-500/10' : 'bg-gradient-to-tr from-blue-300/20 to-cyan-300/20'} rounded-tr-full`}></div>
           
           {/* عنوان الفورم (في حالة عدم وجود صورة) */}
           {!event?.image && (
             <>
-              <h1 className="text-xl md:text-3xl font-bold mb-2 text-white relative inline-block">
+              <h1 className={`text-xl md:text-3xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-800'} relative inline-block`}>
                 Register for {event?.name} ✨
                 <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-blue-500 rounded"></span>
           </h1>
-              <h2 className="text-lg md:text-2xl text-gray-200 mb-4">
+              <h2 className={`text-lg md:text-2xl ${theme === 'dark' ? 'text-gray-200' : 'text-gray-600'} mb-4`}>
                 Hosted by {companyName} 🎉
           </h2>
             </>
@@ -393,13 +464,13 @@ export default function EventRegistrationPage() {
           
           {/* محتوى النجاح أو الفورم */}
           {success ? (
-            <div className="text-center text-white">
+            <div className={`text-center ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
               <div className="bg-green-600/90 backdrop-blur-sm border border-green-400 px-4 py-6 rounded-2xl mb-4 md:mb-6 relative overflow-hidden group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-emerald-400 rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
                 <div className="relative flex flex-col items-center">
                   <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-3 animate-bounce">
                     <span className="text-4xl">🎊</span>
-              </div>
+                </div>
                   <p className="font-bold text-xl">Registration Successful!</p>
                   <p className="text-lg">Thank you for registering for this event!</p>
                 </div>
@@ -407,8 +478,8 @@ export default function EventRegistrationPage() {
               
               {/* Rest of success content */}
               <div className="mb-4">
-                <h3 className="text-lg font-semibold mb-2">Event Details:</h3>
-                <p className="text-white mb-2">
+                <h3 className={`text-lg font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>Event Details:</h3>
+                <p className={`mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-700'}`}>
                   <span className="font-semibold">📅 Date:</span> {event?.date ? new Date(event.date).toLocaleDateString('en-US', {
                     weekday: 'long',
                     year: 'numeric',
@@ -416,7 +487,7 @@ export default function EventRegistrationPage() {
                     day: 'numeric'
                   }) : 'Date not specified'}
                 </p>
-                <p className="text-white whitespace-pre-line">
+                <p className={`whitespace-pre-line ${theme === 'dark' ? 'text-white' : 'text-gray-700'}`}>
                   <span className="font-semibold">📝 Description:</span> {event?.description || 'No description available.'}
                 </p>
               </div>
@@ -450,7 +521,7 @@ export default function EventRegistrationPage() {
 
               {/* Personal Information Section */}
               <div className="mb-1 md:mb-2">
-                <h3 className="text-base md:text-lg font-medium text-white mb-2 flex items-center">
+                <h3 className={`text-base md:text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-800'} mb-2 flex items-center`}>
                   <span className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center mr-2">👤</span>
                   <span className="relative">
                     Personal Information
@@ -463,7 +534,7 @@ export default function EventRegistrationPage() {
                     <div className="absolute -inset-1 bg-gradient-to-r from-pink-500/50 to-purple-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
                     <div className="relative">
                   <input type="text" name="name" id="name"
-                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-purple-500 group-hover:bg-[#414958] transition-all duration-300"
+                            className={`block w-full p-3 text-sm rounded-xl ${theme === 'dark' ? 'text-white bg-[#3b4251] group-hover:bg-[#414958]' : 'text-gray-800 bg-gray-100 group-hover:bg-gray-200'} border-none focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300`}
                             placeholder="Name - الاسم 👋" value={formData.name}
                             onChange={handleChange}
                             disabled={submitting} required/>
@@ -480,7 +551,7 @@ export default function EventRegistrationPage() {
                     <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/50 to-teal-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
                     <div className="relative">
                       <input type="text" name="phone" id="phone"
-                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover:bg-[#414958] transition-all duration-300"
+                            className={`block w-full p-3 text-sm rounded-xl ${theme === 'dark' ? 'text-white bg-[#3b4251] group-hover:bg-[#414958]' : 'text-gray-800 bg-gray-100 group-hover:bg-gray-200'} border-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300`}
                             placeholder="Phone - رقم الهاتف 📱" value={formData.phone}
                          onChange={handleChange}
                             disabled={submitting} required/>
@@ -497,7 +568,7 @@ export default function EventRegistrationPage() {
                     <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/50 to-indigo-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
                     <div className="relative">
                       <input type="email" name="email" id="email"
-                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 group-hover:bg-[#414958] transition-all duration-300"
+                            className={`block w-full p-3 text-sm rounded-xl ${theme === 'dark' ? 'text-white bg-[#3b4251] group-hover:bg-[#414958]' : 'text-gray-800 bg-gray-100 group-hover:bg-gray-200'} border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300`}
                             placeholder="Email - البريد الإلكتروني 📧" value={formData.email}
                             onChange={handleChange}
                             disabled={submitting} required/>
@@ -514,7 +585,7 @@ export default function EventRegistrationPage() {
                     <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500/50 to-orange-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
                     <div className="relative">
                       <input type="text" name="age" id="age"
-                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 group-hover:bg-[#414958] transition-all duration-300"
+                            className={`block w-full p-3 text-sm rounded-xl ${theme === 'dark' ? 'text-white bg-[#3b4251] group-hover:bg-[#414958]' : 'text-gray-800 bg-gray-100 group-hover:bg-gray-200'} border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300`}
                             placeholder="Age - العمر 🎂" value={formData.age}
                             onChange={handleChange}
                             disabled={submitting} required/>
@@ -533,7 +604,7 @@ export default function EventRegistrationPage() {
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/50 to-emerald-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
                 <div className="relative">
                   <input type="text" name="nationalId" id="nationalId"
-                        className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-emerald-500 group-hover:bg-[#414958] transition-all duration-300"
+                        className={`block w-full p-3 text-sm rounded-xl ${theme === 'dark' ? 'text-white bg-[#3b4251] group-hover:bg-[#414958]' : 'text-gray-800 bg-gray-100 group-hover:bg-gray-200'} border-none focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300`}
                         placeholder="National ID - الرقم القومي 🪪" value={formData.nationalId}
                        onChange={handleChange}
                         disabled={submitting} required/>
@@ -542,7 +613,7 @@ export default function EventRegistrationPage() {
                         <span className="text-red-500 mr-1">⚠️</span> {formErrors.nationalId}
                       </p>
                   )}
-                  <p className="text-gray-300 text-xs mt-1 ml-2 flex items-center">
+                  <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-500'} text-xs mt-1 ml-2 flex items-center`}>
                     <span className="mr-1">🔒</span> Your National ID will only be visible to administrators.
                   </p>
                 </div>
@@ -550,7 +621,7 @@ export default function EventRegistrationPage() {
 
               {/* Educational Information Section */}
               <div className="mb-1 md:mb-2 pt-2">
-                <h3 className="text-base md:text-lg font-medium text-white mb-2 flex items-center">
+                <h3 className={`text-base md:text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-800'} mb-2 flex items-center`}>
                   <span className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center mr-2">🎓</span>
                   <span className="relative">
                     Educational Information
@@ -563,7 +634,7 @@ export default function EventRegistrationPage() {
                     <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/50 to-blue-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
                     <div className="relative">
                       <input type="text" name="university" id="university"
-                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover:bg-[#414958] transition-all duration-300"
+                            className={`block w-full p-3 text-sm rounded-xl ${theme === 'dark' ? 'text-white bg-[#3b4251] group-hover:bg-[#414958]' : 'text-gray-800 bg-gray-100 group-hover:bg-gray-200'} border-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300`}
                             placeholder="University - الجامعة 🏫" value={formData.university}
                             onChange={handleChange}
                             disabled={submitting} required/>
@@ -580,7 +651,7 @@ export default function EventRegistrationPage() {
                     <div className="absolute -inset-1 bg-gradient-to-r from-green-500/50 to-teal-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
                     <div className="relative">
                       <input type="text" name="college" id="college"
-                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-teal-500 group-hover:bg-[#414958] transition-all duration-300"
+                            className={`block w-full p-3 text-sm rounded-xl ${theme === 'dark' ? 'text-white bg-[#3b4251] group-hover:bg-[#414958]' : 'text-gray-800 bg-gray-100 group-hover:bg-gray-200'} border-none focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300`}
                             placeholder="College - الكلية 🏛️" value={formData.college}
                        onChange={handleChange}
                             disabled={submitting} required/>
@@ -598,7 +669,7 @@ export default function EventRegistrationPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                 {/* Gender */}
                 <div className="relative">
-                  <label className="text-sm font-medium text-white mb-2 flex items-center">
+                  <label className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'} mb-2 flex items-center`}>
                     <span className="w-6 h-6 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 flex items-center justify-center mr-2">👫</span>
                     Gender - الجنس
                   </label>
@@ -614,10 +685,10 @@ export default function EventRegistrationPage() {
                           disabled={submitting}
                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
-                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.gender === "male" ? 'bg-gradient-to-r from-blue-600 to-blue-400 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
+                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.gender === "male" ? 'bg-gradient-to-r from-blue-600 to-blue-400 scale-105 shadow-lg' : `${theme === 'dark' ? 'bg-[#3b4251] hover:bg-[#414958]' : 'bg-gray-100 hover:bg-gray-200'}`}`}>
                         <div className="text-center">
                           <span className="text-2xl block mb-1">👨</span>
-                          <span className={`text-sm font-medium ${formData.gender === "male" ? 'text-white' : 'text-gray-300'}`}>Male - ذكر</span>
+                          <span className={`text-sm font-medium ${formData.gender === "male" ? 'text-white' : theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Male - ذكر</span>
                         </div>
                       </div>
                     </div>
@@ -632,10 +703,10 @@ export default function EventRegistrationPage() {
                           disabled={submitting}
                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
-                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.gender === "female" ? 'bg-gradient-to-r from-pink-600 to-pink-400 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
+                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.gender === "female" ? 'bg-gradient-to-r from-pink-600 to-pink-400 scale-105 shadow-lg' : `${theme === 'dark' ? 'bg-[#3b4251] hover:bg-[#414958]' : 'bg-gray-100 hover:bg-gray-200'}`}`}>
                         <div className="text-center">
                           <span className="text-2xl block mb-1">👩</span>
-                          <span className={`text-sm font-medium ${formData.gender === "female" ? 'text-white' : 'text-gray-300'}`}>Female - أنثى</span>
+                          <span className={`text-sm font-medium ${formData.gender === "female" ? 'text-white' : theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Female - أنثى</span>
                         </div>
                       </div>
                     </div>
@@ -644,7 +715,7 @@ export default function EventRegistrationPage() {
 
                 {/* Status */}
                 <div className="relative">
-                  <label className="text-sm font-medium text-white mb-2 flex items-center">
+                  <label className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'} mb-2 flex items-center`}>
                     <span className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-400 to-indigo-400 flex items-center justify-center mr-2">🧑‍🎓</span>
                     Status - الحالة
                   </label>
@@ -660,10 +731,10 @@ export default function EventRegistrationPage() {
                           disabled={submitting}
                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
-                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.status === "student" ? 'bg-gradient-to-r from-purple-600 to-indigo-600 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
+                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.status === "student" ? 'bg-gradient-to-r from-purple-600 to-indigo-600 scale-105 shadow-lg' : `${theme === 'dark' ? 'bg-[#3b4251] hover:bg-[#414958]' : 'bg-gray-100 hover:bg-gray-200'}`}`}>
                         <div className="text-center">
                           <span className="text-2xl block mb-1">📚</span>
-                          <span className={`text-sm font-medium ${formData.status === "student" ? 'text-white' : 'text-gray-300'}`}>Student - طالب</span>
+                          <span className={`text-sm font-medium ${formData.status === "student" ? 'text-white' : theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Student - طالب</span>
                         </div>
                       </div>
                     </div>
@@ -678,10 +749,10 @@ export default function EventRegistrationPage() {
                           disabled={submitting}
                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
-                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.status === "graduate" ? 'bg-gradient-to-r from-green-600 to-teal-600 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
+                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.status === "graduate" ? 'bg-gradient-to-r from-green-600 to-teal-600 scale-105 shadow-lg' : `${theme === 'dark' ? 'bg-[#3b4251] hover:bg-[#414958]' : 'bg-gray-100 hover:bg-gray-200'}`}`}>
                         <div className="text-center">
                           <span className="text-2xl block mb-1">🎓</span>
-                          <span className={`text-sm font-medium ${formData.status === "graduate" ? 'text-white' : 'text-gray-300'}`}>Graduate - خريج</span>
+                          <span className={`text-sm font-medium ${formData.status === "graduate" ? 'text-white' : theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Graduate - خريج</span>
                         </div>
                       </div>
                     </div>
