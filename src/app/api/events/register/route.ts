@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
       age,
       university,
       level,
+      faculty,
     } = body;
     
     // Ensure company name and event name are properly decoded
@@ -28,10 +29,10 @@ export async function POST(request: NextRequest) {
     console.log('=== REGISTRATION REQUEST RECEIVED ===');
     console.log('Company name (decoded):', companyName);
     console.log('Event name (decoded):', eventName);
-    console.log('Registrant:', { name, email, phone, age, university, status, level });
+    console.log('Registrant:', { name, email, phone, age, university, status, level, faculty });
     
     // Validate required fields
-    if (!companyName || !eventName || !name || !phone || !email || !gender || !college || !status || !nationalId || !age || !university) {
+    if (!companyName || !eventName || !name || !phone || !email || !gender || !college || !status || !nationalId || !age || !university || !faculty) {
       console.log('Validation failed - missing fields:', {
         companyName: !!companyName,
         eventName: !!eventName,
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
         age: !!age,
         university: !!university,
         level: !!level,
+        faculty: !!faculty,
       });
       
       return NextResponse.json(
@@ -211,7 +213,7 @@ export async function POST(request: NextRequest) {
         console.log('=== ADDING REGISTRATION ===');
         console.log('Company name:', companyName);
         console.log('Event name (exact):', exactEventName);
-        console.log('Registrant:', { name, email, age, university, status, level });
+        console.log('Registrant:', { name, email, age, university, status, level, faculty });
         
         await addToTable(companyName, exactEventName, [
           name,
@@ -226,6 +228,7 @@ export async function POST(request: NextRequest) {
           age,
           university,
           level || '',
+          faculty,
         ]);
         
         console.log('=== REGISTRATION SUCCESSFUL ===');

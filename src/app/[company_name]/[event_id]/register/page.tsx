@@ -16,6 +16,7 @@ interface FormData {
   age: string;
   university: string;
   level?: string; // Optional level field for students
+  faculty: string; // New faculty field
 }
 
 interface FormErrors {
@@ -27,6 +28,7 @@ interface FormErrors {
   age?: string;
   university?: string;
   level?: string; // Optional level field validation
+  faculty?: string; // Faculty field validation
 }
 
 interface Event {
@@ -57,6 +59,7 @@ export default function EventRegistrationPage() {
     age: '',
     university: '',
     level: '1', // Default level for students
+    faculty: '', // Initialize faculty field
   });
   
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -177,6 +180,8 @@ export default function EventRegistrationPage() {
           return 'Please select a valid level';
         }
         return '';
+      case 'faculty':
+        return value.length < 2 ? 'Please enter a valid faculty name' : '';
       default:
         return value.length < 1 ? 'This field is required' : '';
     }
@@ -286,6 +291,7 @@ export default function EventRegistrationPage() {
         age: '',
         university: '',
         level: '1', // Default level for students
+        faculty: '', // Reset faculty field
       });
       setFormErrors({});
     } catch (error) {
@@ -771,6 +777,25 @@ export default function EventRegistrationPage() {
                       />
                       {formErrors.college && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.college}</p>
+                      )}
+                  </div>
+
+                  {/* Faculty */}
+                    <div>
+                      <label htmlFor="faculty" className="form-label">Faculty</label>
+                      <input 
+                        type="text" 
+                        id="faculty" 
+                        name="faculty" 
+                        className="form-input" 
+                        placeholder="Enter your faculty" 
+                        value={formData.faculty}
+                            onChange={handleChange}
+                        disabled={submitting}
+                        required
+                      />
+                      {formErrors.faculty && (
+                        <p className="mt-1 text-sm text-red-600">{formErrors.faculty}</p>
                       )}
                   </div>
                 </div>
