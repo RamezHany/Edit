@@ -505,7 +505,6 @@ export default function EventRegistrationPage() {
             )}
             <h1 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600 tracking-tight">
               {event?.name || 'Event Registration'} 
-              <span className="emoji-icon">🚀</span>
             </h1>
           </div>
           {event?.date && (
@@ -526,7 +525,7 @@ export default function EventRegistrationPage() {
         {/* Form Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-shadow">
           {event?.image && (
-            <div className="w-full h-80 relative">
+            <div className="w-full relative" style={{ aspectRatio: '3/1' }}>
               <Image
                 src={event.image}
                 alt={`${event.name} Event`}
