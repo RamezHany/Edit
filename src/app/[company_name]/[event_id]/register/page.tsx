@@ -157,37 +157,24 @@ export default function EventRegistrationPage() {
   }, [companyName, eventId, companyDisabled]);
 
   const validateField = (name: string, value: string): string => {
+    // Validate field
     switch (name) {
       case 'name':
-        return value.trim() === '' ? 'Full name is required' : '';
-      case 'phone':
-        return value.trim() === '' 
-          ? 'Phone number is required' 
-          : !/^\d{10,15}$/.test(value) 
-            ? 'Invalid phone number format. Must be 10-15 digits' 
-            : '';
+        return value.length < 3 ? 'Name must be at least 3 characters' : '';
       case 'email':
-        return value.trim() === '' 
-          ? 'Email is required' 
-          : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) 
-            ? 'Invalid email format' 
-            : '';
-      case 'college':
-        return value.trim() === '' ? 'College name is required' : '';
-      case 'nationalId':
-        return value.trim() === '' ? 'National ID is required' : '';
+        return !/^\S+@\S+\.\S+$/.test(value) ? 'Please enter a valid email address' : '';
+      case 'phone':
+        return !/^[0-9]{10,15}$/.test(value) ? 'Please enter a valid phone number' : '';
       case 'age':
-        return value.trim() === '' 
-          ? 'Age is required' 
-          : !/^\d9+$/.test(value) 
-            ? 'Age must be a number' 
-            : parseInt(value) < 16 || parseInt(value) > 80
-              ? 'Age must be between 16 and 80' 
-              : '';
-      case 'university':
-        return value.trim() === '' ? 'University name is required' : '';
-      default:
+        const age = parseInt(value);
+        if (isNaN(age) || age < 1 || age > 100) {
+          return 'Please enter a valid age between 1 and 100';
+        }
         return '';
+      case 'nationalId':
+        return value.length < 8 ? 'Please enter a valid National ID' : '';
+      default:
+        return value.length < 1 ? 'This field is required' : '';
     }
   };
 
@@ -708,7 +695,7 @@ export default function EventRegistrationPage() {
                         className="form-input" 
                         placeholder="Enter your age" 
                         value={formData.age}
-                            onChange={handleChange}
+                        onChange={handleChange}
                         disabled={submitting}
                         required
                         min="1"
