@@ -320,21 +320,71 @@ export default function EventRegistrationPage() {
       </div>
       
       {event?.image && (
-        <div className="w-full h-56 md:h-72 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-purple-900 to-transparent opacity-60 z-10"></div>
-          <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-lg blur p-1 opacity-70 animate-gradient"></div>
-          <div className="absolute inset-5 md:inset-10 z-10 mx-auto h-36 md:h-48 w-36 md:w-48 rounded-full overflow-hidden border-4 border-white shadow-2xl transform hover:scale-105 transition-all duration-500">
-            <Image
-              src={event.image}
-              alt={`${companyName} - ${eventId} Event`}
-              fill
-              className="object-cover w-full"
-            />
+        <div className="w-full h-56 md:h-80 relative overflow-hidden bg-gradient-to-b from-blue-900 to-purple-900">
+          {/* Animated circles in background */}
+          <div className="absolute inset-0 overflow-hidden z-0">
+            <div className="absolute w-40 h-40 rounded-full bg-gradient-to-r from-pink-500/30 to-purple-500/30 -left-10 -top-10 animate-pulse"></div>
+            <div className="absolute w-56 h-56 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 right-10 top-20 animate-pulse"></div>
+            <div className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 bottom-5 left-1/4 animate-pulse"></div>
           </div>
-          <div className="absolute bottom-0 left-0 w-full p-4 text-white z-20">
-            <h1 className="text-2xl md:text-4xl font-bold animate-pulse">{event?.name}</h1>
-            <h2 className="text-lg md:text-2xl">Hosted by {companyName}</h2>
+          
+          {/* Sparkling effect */}
+          <div className="absolute inset-0 z-10 opacity-30">
+            <div className="absolute w-2 h-2 rounded-full bg-white top-1/4 left-1/4 opacity-80 animate-pulse"></div>
+            <div className="absolute w-1 h-1 rounded-full bg-white top-1/3 left-2/3 opacity-80 animate-ping"></div>
+            <div className="absolute w-2 h-2 rounded-full bg-white top-2/3 left-1/2 opacity-80 animate-pulse"></div>
+            <div className="absolute w-1 h-1 rounded-full bg-white top-3/4 left-1/5 opacity-80 animate-ping"></div>
+            <div className="absolute w-2 h-2 rounded-full bg-white top-1/5 left-3/4 opacity-80 animate-pulse"></div>
+            <div className="absolute w-1 h-1 rounded-full bg-white top-1/2 left-1/3 opacity-80 animate-ping"></div>
+            <div className="absolute w-2 h-2 rounded-full bg-white top-2/5 left-4/5 opacity-80 animate-pulse"></div>
+            <div className="absolute w-1 h-1 rounded-full bg-white top-4/5 left-2/5 opacity-80 animate-ping"></div>
+            <div className="absolute w-2 h-2 rounded-full bg-white top-3/5 left-3/5 opacity-80 animate-pulse"></div>
+            <div className="absolute w-1 h-1 rounded-full bg-white top-1/6 left-1/6 opacity-80 animate-ping"></div>
           </div>
+          
+          {/* Main image with effects */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+            <div className="relative">
+              {/* Outer glow */}
+              <div className="absolute -inset-3 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 rounded-full blur-lg opacity-70 animate-spin"></div>
+              
+              {/* Image container */}
+              <div className="h-40 w-40 md:h-56 md:w-56 rounded-full relative overflow-hidden border-4 border-white/50 shadow-2xl transform hover:scale-105 transition-all duration-500 group">
+                <Image
+                  src={event.image}
+                  alt={`${companyName} - ${eventId} Event`}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-all duration-700"
+                />
+                
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+                  <p className="text-white text-sm md:text-base font-medium text-center">{event.name}</p>
+                </div>
+              </div>
+              
+              {/* Decorative circles */}
+              <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-pink-500 shadow-lg animate-bounce"></div>
+              <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-blue-500 shadow-lg animate-bounce delay-700"></div>
+              <div className="absolute top-1/2 -right-4 w-4 h-4 rounded-full bg-purple-500 shadow-lg animate-ping"></div>
+            </div>
+          </div>
+          
+          {/* Event details at bottom */}
+          <div className="absolute bottom-0 left-0 w-full p-6 text-white z-30 bg-gradient-to-t from-black/70 to-transparent">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-2xl md:text-4xl font-bold mb-1 drop-shadow-lg">{event?.name}</h1>
+              <h2 className="text-lg md:text-2xl drop-shadow-md flex items-center justify-center">
+                <span className="inline-block mr-2">✨</span>
+                Hosted by {companyName}
+                <span className="inline-block ml-2">✨</span>
+              </h2>
+            </div>
+          </div>
+          
+          {/* Side decorative elements */}
+          <div className="absolute -left-10 top-1/3 h-20 w-20 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 blur-xl opacity-50 animate-pulse"></div>
+          <div className="absolute -right-10 top-2/3 h-24 w-24 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 blur-xl opacity-50 animate-pulse delay-1000"></div>
         </div>
       )}
       
