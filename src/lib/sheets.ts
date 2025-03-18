@@ -295,14 +295,23 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     
     console.log(`Table "${exactTableName}" spans from row ${tableStartIndex} to ${tableEndIndex - 1}`);
     
-    // Calculate the range to append the data
-    // Use tableEndIndex (not +1) to add after the last row of the current table
-    const range = `${sheetName}!A${tableEndIndex}`;
+    // Count how many records are in this table
+    const tableRecordCount = tableEndIndex - tableStartIndex - 1; // -1 for header row
+    console.log(`Table has ${tableRecordCount} records (excluding header)`);
     
-    console.log(`Appending data to range: ${range}`);
+    // Calculate the row index for inserting the new record
+    // This should be the last row of the current table + 1
+    const insertRowIndex = tableStartIndex + tableRecordCount + 1;
+    console.log(`Insert position (row index): ${insertRowIndex}`);
+    
+    // Calculate the range to append the data - insert at the correct position
+    const range = `${sheetName}!A${insertRowIndex + 1}`; // +1 because Google Sheets is 1-indexed
+    
+    console.log(`Inserting data at range: ${range}`);
     console.log(`Data to add:`, rowData);
     
-    const response = await sheets.spreadsheets.values.append({
+    // Use update method instead of append to insert at the exact position
+    const response = await sheets.spreadsheets.values.update({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
       range,
       valueInputOption: 'USER_ENTERED',
