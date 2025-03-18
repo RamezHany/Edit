@@ -65,6 +65,8 @@ export default function EventRegistrationPage() {
       try {
         setLoading(true);
         console.log('Fetching events for company:', companyName);
+        console.log('Event ID from URL (exact):', eventId);
+        
         const response = await fetch(`/api/events?company=${encodeURIComponent(companyName)}`);
         
         if (!response.ok) {
@@ -192,9 +194,12 @@ export default function EventRegistrationPage() {
     setError('');
     
     try {
+      // Use the original event ID from the URL
       console.log('Submitting registration with:', {
         companyName,
         eventName: eventId, // Use the exact event ID from the URL
+        originalEventId: eventId,
+        foundEventId: event.id
       });
       
       const response = await fetch('/api/events/register', {

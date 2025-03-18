@@ -223,7 +223,11 @@ export const getTableData = async (sheetName: string, tableName: string): Promis
 // Add data to a specific table in a sheet
 export const addToTable = async (sheetName: string, tableName: string, rowData: unknown[]) => {
   try {
-    console.log(`Adding data to table "${tableName}" in sheet "${sheetName}"`);
+    console.log(`=== ADDING DATA TO TABLE ===`);
+    console.log(`Table name requested: "${tableName}"`);
+    console.log(`Sheet name: "${sheetName}"`);
+    
+    // Get the sheet data first
     const data = await getSheetData(sheetName);
     
     if (!data || data.length === 0) {
@@ -231,21 +235,28 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
       throw new Error(`Sheet ${sheetName} is empty or does not exist`);
     }
     
+    console.log(`Sheet data has ${data.length} rows`);
+    
+    // Debug: Print all potential table names in this sheet
+    console.log(`=== ALL POTENTIAL TABLES IN SHEET ${sheetName} ===`);
+    const potentialTables = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i] && data[i].length === 1 && data[i][0]) {
+        console.log(`Row ${i}: "${data[i][0]}"`);
+        potentialTables.push({ row: i, name: data[i][0] });
+      }
+    }
+    
     // Try direct match first
     let tableStartIndex = -1;
     let exactTableName = tableName;
     
-    // Log all table names for debugging
-    console.log('All table names in sheet:');
-    for (let i = 0; i < data.length; i++) {
-      if (data[i] && data[i].length === 1 && data[i][0]) {
-        console.log(`- "${data[i][0]}" (row ${i})`);
-      }
-    }
-
+    console.log(`=== SEARCHING FOR TABLE "${tableName}" ===`);
+    
+    // First try exact match
     for (let i = 0; i < data.length; i++) {
       if (data[i] && data[i][0] === tableName) {
-        console.log(`Found exact match for table "${tableName}" at row ${i}`);
+        console.log(`FOUND EXACT MATCH for table "${tableName}" at row ${i}`);
         tableStartIndex = i;
         break;
       }
@@ -253,10 +264,12 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     
     // If no direct match, try case-insensitive match
     if (tableStartIndex === -1) {
+      console.log(`No exact match found, trying case-insensitive match`);
       const normalizedTableName = tableName.trim().toLowerCase();
+      
       for (let i = 0; i < data.length; i++) {
         if (data[i] && data[i][0] && data[i][0].trim().toLowerCase() === normalizedTableName) {
-          console.log(`Found case-insensitive match for table "${tableName}" at row ${i}: "${data[i][0]}"`);
+          console.log(`FOUND CASE-INSENSITIVE MATCH: "${data[i][0]}" at row ${i}`);
           exactTableName = data[i][0]; // Use the exact table name from the sheet
           tableStartIndex = i;
           break;
@@ -265,7 +278,8 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     }
     
     if (tableStartIndex === -1) {
-      console.error(`Table "${tableName}" not found in sheet "${sheetName}"`);
+      console.error(`!!! TABLE NOT FOUND: "${tableName}" in sheet "${sheetName}"`);
+      console.log(`Available tables:`, potentialTables.map(t => t.name).join(', '));
       throw new Error(`Table ${tableName} not found in sheet ${sheetName}`);
     }
     
@@ -279,12 +293,14 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
       }
     }
     
-    console.log(`Table "${exactTableName}" spans from row ${tableStartIndex + 1} to ${tableEndIndex - 1}`);
+    console.log(`Table "${exactTableName}" spans from row ${tableStartIndex} to ${tableEndIndex - 1}`);
     
     // Calculate the range to append the data
+    // Use tableEndIndex (not +1) to add after the last row of the current table
     const range = `${sheetName}!A${tableEndIndex}`;
     
     console.log(`Appending data to range: ${range}`);
+    console.log(`Data to add:`, rowData);
     
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
@@ -295,11 +311,11 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
       },
     });
     
-    console.log('Data added successfully');
+    console.log(`=== DATA ADDED SUCCESSFULLY ===`);
     
     return response.data;
   } catch (error) {
-    console.error(`Error adding data to table ${tableName} in sheet ${sheetName}:`, error);
+    console.error(`ERROR adding data to table ${tableName} in sheet ${sheetName}:`, error);
     throw error;
   }
 };
