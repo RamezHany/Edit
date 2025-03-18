@@ -319,7 +319,7 @@ export default function EventRegistrationPage() {
         <div className="absolute w-20 h-20 bg-yellow-500 rounded-full top-1/2 right-1/3 animate-bounce"></div>
       </div>
       
-      {event?.image && (
+        {event?.image && (
         <div className="w-full h-56 md:h-72 relative overflow-hidden">
           {/* الصورة الرئيسية بتاخد المساحة كاملة كبنر */}
           <div className="absolute inset-0 z-10">
@@ -367,8 +367,8 @@ export default function EventRegistrationPage() {
               </h2>
             </div>
           </div>
-        </div>
-      )}
+          </div>
+        )}
       
       {/* الفورم بتصميم محسن للموبايل */}
       <div className="w-[98%] md:w-[90%] lg:w-[75%] mx-auto bg-[#353c49]/95 backdrop-blur-sm rounded-t-none rounded-b-3xl shadow-2xl overflow-hidden -mt-2 md:-mt-4 border-t-0 border-x border-b border-purple-500/30 relative z-30"
@@ -384,10 +384,10 @@ export default function EventRegistrationPage() {
               <h1 className="text-xl md:text-3xl font-bold mb-2 text-white relative inline-block">
                 Register for {event?.name} ✨
                 <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-blue-500 rounded"></span>
-              </h1>
+          </h1>
               <h2 className="text-lg md:text-2xl text-gray-200 mb-4">
                 Hosted by {companyName} 🎉
-              </h2>
+          </h2>
             </>
           )}
           
@@ -399,7 +399,7 @@ export default function EventRegistrationPage() {
                 <div className="relative flex flex-col items-center">
                   <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-3 animate-bounce">
                     <span className="text-4xl">🎊</span>
-                  </div>
+              </div>
                   <p className="font-bold text-xl">Registration Successful!</p>
                   <p className="text-lg">Thank you for registering for this event!</p>
                 </div>
@@ -428,7 +428,7 @@ export default function EventRegistrationPage() {
                 >
                   <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform group-hover:scale-110"></span>
                   <span className="relative flex items-center">
-                    Return to Event
+                  Return to Event
                     <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                     </svg>
@@ -462,7 +462,7 @@ export default function EventRegistrationPage() {
                   <div className="relative group">
                     <div className="absolute -inset-1 bg-gradient-to-r from-pink-500/50 to-purple-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
                     <div className="relative">
-                      <input type="text" name="name" id="name"
+                  <input type="text" name="name" id="name"
                             className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-purple-500 group-hover:bg-[#414958] transition-all duration-300"
                             placeholder="Name - الاسم 👋" value={formData.name}
                             onChange={handleChange}
@@ -482,7 +482,7 @@ export default function EventRegistrationPage() {
                       <input type="text" name="phone" id="phone"
                             className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover:bg-[#414958] transition-all duration-300"
                             placeholder="Phone - رقم الهاتف 📱" value={formData.phone}
-                            onChange={handleChange}
+                         onChange={handleChange}
                             disabled={submitting} required/>
                       {formErrors.phone && (
                           <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
@@ -535,7 +535,7 @@ export default function EventRegistrationPage() {
                   <input type="text" name="nationalId" id="nationalId"
                         className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-emerald-500 group-hover:bg-[#414958] transition-all duration-300"
                         placeholder="National ID - الرقم القومي 🪪" value={formData.nationalId}
-                        onChange={handleChange}
+                       onChange={handleChange}
                         disabled={submitting} required/>
                   {formErrors.nationalId && (
                       <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
@@ -582,7 +582,7 @@ export default function EventRegistrationPage() {
                       <input type="text" name="college" id="college"
                             className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-teal-500 group-hover:bg-[#414958] transition-all duration-300"
                             placeholder="College - الكلية 🏛️" value={formData.college}
-                            onChange={handleChange}
+                       onChange={handleChange}
                             disabled={submitting} required/>
                       {formErrors.college && (
                           <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
@@ -604,14 +604,14 @@ export default function EventRegistrationPage() {
                   </label>
                   <div className="grid grid-cols-2 gap-2 mt-2">
                     <div className="relative">
-                      <input 
-                        type="radio"
-                        id="gender-male"
-                        name="gender"
-                        value="male"
-                        checked={formData.gender === "male"}
-                        onChange={handleChange}
-                        disabled={submitting}
+                      <input
+                          type="radio"
+                          id="gender-male"
+                          name="gender"
+                          value="male"
+                          checked={formData.gender === "male"}
+                          onChange={handleChange}
+                          disabled={submitting}
                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
                       <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.gender === "male" ? 'bg-gradient-to-r from-blue-600 to-blue-400 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
@@ -622,14 +622,14 @@ export default function EventRegistrationPage() {
                       </div>
                     </div>
                     <div className="relative">
-                      <input 
-                        type="radio"
-                        id="gender-female"
-                        name="gender"
-                        value="female"
-                        checked={formData.gender === "female"}
-                        onChange={handleChange}
-                        disabled={submitting}
+                      <input
+                          type="radio"
+                          id="gender-female"
+                          name="gender"
+                          value="female"
+                          checked={formData.gender === "female"}
+                          onChange={handleChange}
+                          disabled={submitting}
                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
                       <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.gender === "female" ? 'bg-gradient-to-r from-pink-600 to-pink-400 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
@@ -640,7 +640,7 @@ export default function EventRegistrationPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+              </div>
 
                 {/* Status */}
                 <div className="relative">
@@ -650,14 +650,14 @@ export default function EventRegistrationPage() {
                   </label>
                   <div className="grid grid-cols-2 gap-2 mt-2">
                     <div className="relative">
-                      <input 
-                        type="radio"
-                        id="status-student"
-                        name="status"
-                        value="student"
-                        checked={formData.status === "student"}
-                        onChange={handleChange}
-                        disabled={submitting}
+                      <input
+                          type="radio"
+                          id="status-student"
+                          name="status"
+                          value="student"
+                          checked={formData.status === "student"}
+                          onChange={handleChange}
+                          disabled={submitting}
                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
                       <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.status === "student" ? 'bg-gradient-to-r from-purple-600 to-indigo-600 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
@@ -668,14 +668,14 @@ export default function EventRegistrationPage() {
                       </div>
                     </div>
                     <div className="relative">
-                      <input 
-                        type="radio"
-                        id="status-graduate"
-                        name="status"
-                        value="graduate"
-                        checked={formData.status === "graduate"}
-                        onChange={handleChange}
-                        disabled={submitting}
+                      <input
+                          type="radio"
+                          id="status-graduate"
+                          name="status"
+                          value="graduate"
+                          checked={formData.status === "graduate"}
+                          onChange={handleChange}
+                          disabled={submitting}
                         className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
                       <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.status === "graduate" ? 'bg-gradient-to-r from-green-600 to-teal-600 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
@@ -686,7 +686,7 @@ export default function EventRegistrationPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+              </div>
               </div>
 
               {/* زر التسجيل محسن للموبايل */}
