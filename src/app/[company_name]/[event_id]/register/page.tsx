@@ -57,7 +57,6 @@ export default function EventRegistrationPage() {
   });
   
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -102,7 +101,6 @@ export default function EventRegistrationPage() {
     // Fetch event details to verify it exists and get the image
     const fetchEventDetails = async () => {
       try {
-        setLoading(true);
         console.log('Fetching events for company:', companyName);
         console.log('Event ID from URL (exact):', eventId);
         
@@ -148,8 +146,6 @@ export default function EventRegistrationPage() {
         if (!companyDisabled) {
           setError('Event not found or registration is closed');
         }
-      } finally {
-        setLoading(false);
       }
     };
     
@@ -287,14 +283,6 @@ export default function EventRegistrationPage() {
       setSubmitting(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className={`min-h-screen flex items-center justify-center ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
-        <div className={`text-xl ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>Loading...</div>
-      </div>
-    );
-  }
 
   if (error && !submitting) {
     return (
@@ -532,16 +520,6 @@ export default function EventRegistrationPage() {
           )}
           
           <div className="p-6 md:p-8">
-            {/* Loading State */}
-            {loading && (
-              <div className="py-12 flex justify-center items-center">
-                <svg className="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              </div>
-            )}
-            
             {/* Error State */}
             {error && !submitting && (
               <div className="py-12 text-center">
@@ -619,7 +597,7 @@ export default function EventRegistrationPage() {
             )}
             
             {/* Registration Form */}
-            {!loading && !success && !eventDisabled && !companyDisabled && (
+            {!success && !eventDisabled && !companyDisabled && (
               <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Form Error */}
               {error && (
