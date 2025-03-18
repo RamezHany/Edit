@@ -91,18 +91,23 @@ export default function EventDetailsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-xl">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-xl text-blue-600">Loading...</div>
       </div>
     );
   }
 
   if (error && !loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center card-shadow">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-6">
+            <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
           <div className="text-red-500 text-xl mb-4">{error}</div>
-          <Link href="/" className="text-blue-500 hover:underline">
+          <Link href="/" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 shadow-md transition-all duration-200">
             Return to Home
           </Link>
         </div>
@@ -112,18 +117,23 @@ export default function EventDetailsPage() {
 
   if (eventDisabled) {
     return (
-      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden card-shadow">
           <div className="p-6">
             <div className="flex items-center justify-center">
               <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-100 mb-6">
+                  <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
                 <h2 className="text-2xl font-bold text-red-600 mb-4">Registration Disabled</h2>
                 <p className="text-gray-600 mb-6">
                   Registration for this event is currently disabled. Please contact the organizer for more information.
                 </p>
                 <Link
                   href="/"
-                  className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 shadow-md transition-all duration-200"
                 >
                   Return to Home
                 </Link>
@@ -137,18 +147,23 @@ export default function EventDetailsPage() {
   
   if (companyDisabled) {
     return (
-      <div className="min-h-screen mx-auto bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="min-h-screen mx-auto bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden card-shadow">
           <div className="p-6">
             <div className="flex items-center justify-center">
               <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-100 mb-6">
+                  <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
                 <h2 className="text-2xl font-bold text-red-600 mb-4">Company Inactive</h2>
                 <p className="text-gray-600 mb-6">
                   This company&apos;s events are currently not available. Please contact the administrator for more information.
                 </p>
                 <Link
                   href="/"
-                  className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 shadow-md transition-all duration-200"
                 >
                   Return to Home
                 </Link>
@@ -161,60 +176,115 @@ export default function EventDetailsPage() {
   }
 
   return (
-      <div className="min-h-screen mx-auto py-12 bg-gradient-to-l from-[#1f2937f2] to-[#111827f2]">
-        <div className="w-[80%] md:w-[80%] lg:w-[50%] mx-auto bg-white rounded shadow-md overflow-hidden ">
-          {event?.image && (
-              <div className="w-full h-64 relative overflow-hidden group">
-                <Image
-                    src={event.image}
-                    alt={`${companyName} - ${eventId} Event`}
-                    fill
-                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:-rotate-1"
-                />
+    <div className="min-h-screen relative overflow-hidden bg-gray-50">
+      <style jsx global>{`
+        body {
+          transition: background-color 0.3s ease, color 0.3s ease;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          color: #333333;
+          background-color: #f8f9fa;
+        }
+        
+        .section-title {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #3a0ca3;
+          margin-bottom: 1.5rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 2px solid #4361ee;
+          display: inline-block;
+        }
+        
+        .card-shadow {
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+          transition: all 0.3s ease;
+        }
+        
+        .card-shadow:hover {
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+        
+        .emoji-icon {
+          display: inline-block;
+          margin-right: 0.5rem;
+        }
+        
+        .highlight-text {
+          background: linear-gradient(120deg, #3a0ca3, #4361ee);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 700;
+        }
+      `}</style>
+      
+      <div className="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <header className="mb-10 text-center">
+          <div className="mb-4">
+            {companyName && (
+              <div className="text-sm uppercase tracking-widest mb-1 font-bold text-blue-600">
+                {companyName}
               </div>
-          )}
-
-          <div className="p-8 bg-[#353c49]">
-            <h1 className="text-[24px] md:text-[30px] font-bold  mb-2 text-gray-100">
-              {event?.name}
+            )}
+            <h1 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600 tracking-tight">
+              {event?.name || 'Event Details'}
             </h1>
-            <h2 className="text-[24px] md:text-[30px] font-bold  mb-4 text-black">
-              Hosted by <span className="">{companyName}</span>
-            </h2>
-
-            <div className="mb-6 ">
-        <span className="inline-block bg-blue-100 text-blue-800 text-[16px] md:text-[24px]  font-semibold px-3 py-1 rounded-full">
-          {event?.date
-              ? new Date(event.date).toLocaleDateString("en-US", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })
-              : "Date not specified"}
-        </span>
+          </div>
+          {event?.date && (
+            <div className="text-sm bg-indigo-50 inline-flex rounded-full px-3 py-1 items-center font-medium text-indigo-700">
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {new Date(event.date).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
             </div>
-
+          )}
+        </header>
+        
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-shadow">
+          {event?.image && (
+            <div className="w-full relative" style={{ aspectRatio: '3/1' }}>
+              <Image
+                src={event.image}
+                alt={`${event.name} Event`}
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+          )}
+          
+          <div className="p-6 md:p-8">
             <div className="mb-8">
-              <h3 className="text-lg font-semibold mb-2 text-black">
-                About this event:
-              </h3>
-              <p className="text-gray-100 whitespace-pre-line">
+              <h3 className="section-title">About This Event <span className="emoji-icon">✨</span></h3>
+              <p className="text-gray-700 whitespace-pre-line">
                 {event?.description || "No description available."}
               </p>
             </div>
-
-            <div className="flex justify-center">
+            
+            <div className="flex justify-center mt-10">
               <button
-                  onClick={handleRegisterClick}
-                  className="bg-gray-500 hover:bg-gray-400 hover:text-black text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300 cursor-pointer"
+                onClick={handleRegisterClick}
+                className="flex justify-center py-3.5 px-8 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
               >
-                Register Now
+                Register Now 🚀
               </button>
             </div>
           </div>
         </div>
-
+        
+        <div className="mt-10 text-center">
+          <div className="inline-flex items-center justify-center text-xs text-gray-500 bg-blue-50 px-4 py-2 rounded-full">
+            <svg className="w-3 h-3 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>Powered by </span>
+            <span className="font-medium text-blue-600 ml-1">illustraV</span>
+          </div>
+        </div>
       </div>
+    </div>
   );
 } 
