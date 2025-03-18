@@ -237,6 +237,19 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     
     console.log(`Sheet data has ${data.length} rows`);
     
+    // Get the spreadsheet to retrieve sheet ID
+    const spreadsheet = await getSpreadsheet();
+    const sheet = spreadsheet.sheets?.find(
+      (s) => s.properties?.title === sheetName
+    );
+    
+    if (!sheet || !sheet.properties?.sheetId) {
+      throw new Error(`Sheet ${sheetName} not found`);
+    }
+    
+    const sheetId = sheet.properties.sheetId;
+    console.log(`Sheet ID: ${sheetId}`);
+    
     // Debug: Print all potential table names in this sheet
     console.log(`=== ALL POTENTIAL TABLES IN SHEET ${sheetName} ===`);
     const potentialTables = [];
@@ -295,51 +308,72 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     
     console.log(`Table "${exactTableName}" spans from row ${tableStartIndex} to ${tableEndIndex - 1}`);
     
-    // The first two rows after the table name are:
-    // Row 1: Headers (tableStartIndex + 1)
-    // Row 2: Settings (tableStartIndex + 2)
-    // We should add registrations after the settings row
+    // Calculate the position to add new data
+    // We need to respect:
+    // 1. Table name row
+    // 2. Headers row
+    // 3. Settings row (first data row)
+    // So we start from tableStartIndex + 3 (after these 3 rows)
     
-    // Calculate the position to add new data (after the settings row)
-    // If there are only headers and settings, insertPosition = tableStartIndex + 3
-    // Otherwise, find the first empty row or use tableEndIndex
+    // Start from the position after the settings row
+    let insertPosition = tableStartIndex + 3; 
     
-    let insertPosition = tableStartIndex + 3; // Default: After table name, headers, and settings
+    console.log(`Initial insert position (after table name, headers, settings): ${insertPosition}`);
     
-    // Check if there's already data after the settings row
-    // If so, we'll insert at the end of the existing data
-    if (insertPosition < tableEndIndex) {
-      let hasExistingData = false;
-      for (let i = insertPosition; i < tableEndIndex; i++) {
-        if (data[i] && data[i].length > 0) {
-          hasExistingData = true;
-          insertPosition = i + 1;
-        }
-      }
-      
-      if (hasExistingData) {
-        console.log(`Found existing registration data, will insert at position ${insertPosition}`);
-      } else {
-        console.log(`No existing registration data, using default position ${insertPosition}`);
-      }
+    // Check if the insert position is beyond the table end
+    // This shouldn't happen in normal cases, but just to be safe
+    if (insertPosition >= tableEndIndex) {
+      insertPosition = tableEndIndex;
     }
     
-    // Final check: make sure we're not inserting beyond the end of the sheet
-    insertPosition = Math.min(insertPosition, tableEndIndex);
-    
-    const range = `${sheetName}!A${insertPosition + 1}`; // +1 because sheets is 1-indexed
-    console.log(`Inserting data at range: ${range}`);
+    console.log(`Final insert position: ${insertPosition}`);
     console.log(`Data to add:`, rowData);
     
-    // Use insert method to add rows at the specific position
-    const response = await sheets.spreadsheets.values.append({
+    // Convert the row data to a CellData array
+    const cellData = rowData.map(value => ({
+      userEnteredValue: {
+        // Convert the value to the appropriate type
+        // For simplicity, treat everything as a string
+        stringValue: value?.toString() || ''
+      }
+    }));
+    
+    // Use insertDimension to create a new row at the specific position
+    // Then use updateCells to populate the cells with data
+    const response = await sheets.spreadsheets.batchUpdate({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range,
-      valueInputOption: 'USER_ENTERED',
-      insertDataOption: 'INSERT_ROWS', // This is important - insert a new row rather than overwriting
       requestBody: {
-        values: [rowData],
-      },
+        requests: [
+          // First, insert a new row at the position
+          {
+            insertDimension: {
+              range: {
+                sheetId: sheetId,
+                dimension: 'ROWS',
+                startIndex: insertPosition,
+                endIndex: insertPosition + 1
+              },
+              inheritFromBefore: false
+            }
+          },
+          // Then, update the cells in that row with the data
+          {
+            updateCells: {
+              start: {
+                sheetId: sheetId,
+                rowIndex: insertPosition,
+                columnIndex: 0
+              },
+              rows: [
+                {
+                  values: cellData
+                }
+              ],
+              fields: 'userEnteredValue'
+            }
+          }
+        ]
+      }
     });
     
     console.log(`=== DATA ADDED SUCCESSFULLY ===`);
