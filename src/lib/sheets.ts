@@ -295,26 +295,20 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     
     console.log(`Table "${exactTableName}" spans from row ${tableStartIndex} to ${tableEndIndex - 1}`);
     
-    // Count how many records are in this table
-    const tableRecordCount = tableEndIndex - tableStartIndex - 1; // -1 for header row
-    console.log(`Table has ${tableRecordCount} records (excluding header)`);
+    // Instead of trying to calculate the exact position, simply append the data to the sheet
+    // and specify the insertion point right before the next table or at the end of the sheet
+    // This approach prevents overwriting existing data
     
-    // Calculate the row index for inserting the new record
-    // This should be the last row of the current table + 1
-    const insertRowIndex = tableStartIndex + tableRecordCount + 1;
-    console.log(`Insert position (row index): ${insertRowIndex}`);
-    
-    // Calculate the range to append the data - insert at the correct position
-    const range = `${sheetName}!A${insertRowIndex + 1}`; // +1 because Google Sheets is 1-indexed
-    
+    const range = `${sheetName}!A${tableEndIndex}`;
     console.log(`Inserting data at range: ${range}`);
     console.log(`Data to add:`, rowData);
     
-    // Use update method instead of append to insert at the exact position
-    const response = await sheets.spreadsheets.values.update({
+    // Use insert method to add rows at the specific position
+    const response = await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
       range,
       valueInputOption: 'USER_ENTERED',
+      insertDataOption: 'INSERT_ROWS', // This is important - insert a new row rather than overwriting
       requestBody: {
         values: [rowData],
       },
