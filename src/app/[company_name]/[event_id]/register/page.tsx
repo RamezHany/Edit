@@ -312,7 +312,7 @@ export default function EventRegistrationPage() {
   return (
     <div className="min-h-screen bg-gradient-to-l from-[#1f2937f2] to-[#111827f2]">
       {event?.image && (
-        <div className="w-full h-56 md:h-72 relative overflow-hidden">
+        <div className="w-full h-48 md:h-72 relative overflow-hidden">
           <Image
             src={event.image}
             alt={`${companyName} - ${eventId} Event`}
@@ -321,20 +321,20 @@ export default function EventRegistrationPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] to-transparent opacity-70"></div>
           <div className="absolute bottom-0 left-0 w-full p-4 text-white">
-            <h1 className="text-3xl md:text-4xl font-bold">{event?.name}</h1>
-            <h2 className="text-xl md:text-2xl">Hosted by {companyName}</h2>
+            <h1 className="text-2xl md:text-4xl font-bold">{event?.name}</h1>
+            <h2 className="text-lg md:text-2xl">Hosted by {companyName}</h2>
           </div>
         </div>
       )}
       
-      <div className="w-[90%] md:w-[80%] lg:w-[60%] mx-auto bg-[#353c49] rounded-lg shadow-xl overflow-hidden my-6">
-        <div className="p-5 md:p-8">
+      <div className="w-[95%] md:w-[80%] lg:w-[60%] mx-auto bg-[#353c49] rounded-lg shadow-xl overflow-hidden my-4 md:my-6">
+        <div className="p-4 md:p-8">
           {!event?.image && (
             <>
-              <h1 className="text-2xl md:text-3xl font-bold mb-2 text-white">
+              <h1 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 text-white">
                 Register for {event?.name}
               </h1>
-              <h2 className="text-xl md:text-2xl text-gray-200 mb-6">
+              <h2 className="text-lg md:text-2xl text-gray-200 mb-4 md:mb-6">
                 Hosted by {companyName}
               </h2>
             </>
@@ -342,7 +342,7 @@ export default function EventRegistrationPage() {
           
           {success ? (
             <div className="text-center text-white">
-              <div className="bg-green-700 border border-green-600 px-4 py-3 rounded mb-6">
+              <div className="bg-green-700 border border-green-600 px-4 py-3 rounded mb-4 md:mb-6">
                 <p className="font-bold">Registration Successful!</p>
                 <p>Thank you for registering for this event.</p>
               </div>
@@ -372,119 +372,119 @@ export default function EventRegistrationPage() {
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-2 md:space-y-3">
               {error && (
-                <div className="bg-red-700 border border-red-600 text-white px-4 py-3 rounded mb-4">
+                <div className="bg-red-700 border border-red-600 text-white px-3 py-2 rounded mb-3">
                   {error}
                 </div>
               )}
 
               {/* Personal Information Section */}
-              <div className="mb-1">
-                <h3 className="text-lg font-medium text-white mb-2">Personal Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="mb-0 md:mb-1">
+                <h3 className="text-base md:text-lg font-medium text-white mb-1 md:mb-2">Personal Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {/* Name */}
                   <div className="relative z-0 w-full mb-1 group">
                     <input type="text" name="name" id="name"
-                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
                           placeholder="Name - الاسم" value={formData.name}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.name && (
-                        <p className="text-red-500 text-xs italic mt-1">{formErrors.name}</p>
+                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.name}</p>
                     )}
                   </div>
 
                   {/* Phone */}
                   <div className="relative z-0 w-full mb-1 group">
                     <input type="text" name="phone" id="phone"
-                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
                           placeholder="Phone - رقم الهاتف" value={formData.phone}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.phone && (
-                        <p className="text-red-500 text-xs italic mt-1">{formErrors.phone}</p>
+                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.phone}</p>
                     )}
                   </div>
                   
                   {/* Email */}
                   <div className="relative z-0 w-full mb-1 group">
                     <input type="email" name="email" id="email"
-                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
                           placeholder="Email - البريد الإلكتروني" value={formData.email}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.email && (
-                        <p className="text-red-500 text-xs italic mt-1">{formErrors.email}</p>
+                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.email}</p>
                     )}
                   </div>
                   
                   {/* Age */}
                   <div className="relative z-0 w-full mb-1 group">
                     <input type="text" name="age" id="age"
-                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
                           placeholder="Age - العمر" value={formData.age}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.age && (
-                        <p className="text-red-500 text-xs italic mt-1">{formErrors.age}</p>
+                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.age}</p>
                     )}
-                  </div>
-                  
-                  {/* National ID */}
-                  <div className="relative z-0 w-full mb-1 group md:col-span-2">
-                    <input type="text" name="nationalId" id="nationalId"
-                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
-                          placeholder="National ID - الرقم القومي" value={formData.nationalId}
-                          onChange={handleChange}
-                          disabled={submitting} required/>
-                    {formErrors.nationalId && (
-                        <p className="text-red-500 text-xs italic mt-1">{formErrors.nationalId}</p>
-                    )}
-                    <p className="text-gray-300 text-xs mt-1">Your National ID will only be visible to administrators.</p>
                   </div>
                 </div>
               </div>
 
+              {/* National ID */}
+              <div className="relative z-0 w-full mb-1 group">
+                <input type="text" name="nationalId" id="nationalId"
+                      className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
+                      placeholder="National ID - الرقم القومي" value={formData.nationalId}
+                      onChange={handleChange}
+                      disabled={submitting} required/>
+                {formErrors.nationalId && (
+                    <p className="text-red-500 text-xs italic mt-0.5">{formErrors.nationalId}</p>
+                )}
+                <p className="text-gray-300 text-xs mt-0.5">Your National ID will only be visible to administrators.</p>
+              </div>
+
               {/* Educational Information Section */}
-              <div className="mb-1 pt-2">
-                <h3 className="text-lg font-medium text-white mb-2">Educational Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="mb-0 md:mb-1 pt-1 md:pt-2">
+                <h3 className="text-base md:text-lg font-medium text-white mb-1 md:mb-2">Educational Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {/* University */}
                   <div className="relative z-0 w-full mb-1 group">
                     <input type="text" name="university" id="university"
-                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
                           placeholder="University - الجامعة" value={formData.university}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.university && (
-                        <p className="text-red-500 text-xs italic mt-1">{formErrors.university}</p>
+                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.university}</p>
                     )}
                   </div>
                   
                   {/* College */}
                   <div className="relative z-0 w-full mb-1 group">
                     <input type="text" name="college" id="college"
-                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
                           placeholder="College - الكلية" value={formData.college}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.college && (
-                        <p className="text-red-500 text-xs italic mt-1">{formErrors.college}</p>
+                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.college}</p>
                     )}
                   </div>
                 </div>
               </div>
 
-              {/* Gender and Status Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              {/* Gender and Status Section - Changed to be in one row on mobile */}
+              <div className="grid grid-cols-2 gap-2 mt-2">
                 {/* Gender */}
                 <div className="mb-1">
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label className="block text-sm font-medium text-white mb-1">
                     Gender - الجنس
                   </label>
-                  <div className="flex space-x-4">
-                    <div className="flex items-center">
+                  <div className="flex flex-col sm:flex-row sm:space-x-4">
+                    <div className="flex items-center mb-1 sm:mb-0">
                       <input
                         type="radio"
                         id="gender-male"
@@ -519,11 +519,11 @@ export default function EventRegistrationPage() {
 
                 {/* Status */}
                 <div className="mb-1">
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label className="block text-sm font-medium text-white mb-1">
                     Status - الحالة
                   </label>
-                  <div className="flex space-x-4">
-                    <div className="flex items-center">
+                  <div className="flex flex-col sm:flex-row sm:space-x-4">
+                    <div className="flex items-center mb-1 sm:mb-0">
                       <input
                         type="radio"
                         id="status-student"
@@ -557,10 +557,10 @@ export default function EventRegistrationPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-center mt-6">
+              <div className="flex items-center justify-center mt-4">
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 w-full md:w-auto"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 w-full"
                   disabled={submitting}
                 >
                   {submitting ? 'Submitting...' : 'Register for Event'}
