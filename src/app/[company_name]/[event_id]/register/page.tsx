@@ -98,11 +98,6 @@ export default function EventRegistrationPage() {
     setTheme('light');
   }, []);
 
-  // Toggle theme function
-  const toggleTheme = () => {
-    setTheme((prevTheme: 'dark' | 'light') => prevTheme === 'dark' ? 'light' : 'dark');
-  };
-
   useEffect(() => {
     // Fetch event details to verify it exists and get the image
     const fetchEventDetails = async () => {
