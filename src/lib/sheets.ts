@@ -295,11 +295,39 @@ export const addToTable = async (sheetName: string, tableName: string, rowData: 
     
     console.log(`Table "${exactTableName}" spans from row ${tableStartIndex} to ${tableEndIndex - 1}`);
     
-    // Instead of trying to calculate the exact position, simply append the data to the sheet
-    // and specify the insertion point right before the next table or at the end of the sheet
-    // This approach prevents overwriting existing data
+    // The first two rows after the table name are:
+    // Row 1: Headers (tableStartIndex + 1)
+    // Row 2: Settings (tableStartIndex + 2)
+    // We should add registrations after the settings row
     
-    const range = `${sheetName}!A${tableEndIndex}`;
+    // Calculate the position to add new data (after the settings row)
+    // If there are only headers and settings, insertPosition = tableStartIndex + 3
+    // Otherwise, find the first empty row or use tableEndIndex
+    
+    let insertPosition = tableStartIndex + 3; // Default: After table name, headers, and settings
+    
+    // Check if there's already data after the settings row
+    // If so, we'll insert at the end of the existing data
+    if (insertPosition < tableEndIndex) {
+      let hasExistingData = false;
+      for (let i = insertPosition; i < tableEndIndex; i++) {
+        if (data[i] && data[i].length > 0) {
+          hasExistingData = true;
+          insertPosition = i + 1;
+        }
+      }
+      
+      if (hasExistingData) {
+        console.log(`Found existing registration data, will insert at position ${insertPosition}`);
+      } else {
+        console.log(`No existing registration data, using default position ${insertPosition}`);
+      }
+    }
+    
+    // Final check: make sure we're not inserting beyond the end of the sheet
+    insertPosition = Math.min(insertPosition, tableEndIndex);
+    
+    const range = `${sheetName}!A${insertPosition + 1}`; // +1 because sheets is 1-indexed
     console.log(`Inserting data at range: ${range}`);
     console.log(`Data to add:`, rowData);
     
