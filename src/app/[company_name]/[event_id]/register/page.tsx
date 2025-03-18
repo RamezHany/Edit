@@ -310,49 +310,47 @@ export default function EventRegistrationPage() {
   }
 
   return (
-    <div className="min-h-screen  py-12 bg-gradient-to-l from-[#1f2937f2] to-[#111827f2]">
-      <div className="w-[80%] md:w-[80%] lg:w-[50%] mx-auto bg-white rounded shadow-md overflow-hidden">
-        {event?.image && (
-          <div className="w-full h-64 relative overflow-hidden group">
-            <Image
-              src={event.image}
-              alt={`${companyName} - ${eventId} Event`}
-              fill
-              className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:-rotate-1"
-            />
+    <div className="min-h-screen bg-gradient-to-l from-[#1f2937f2] to-[#111827f2]">
+      {event?.image && (
+        <div className="w-full h-56 md:h-72 relative overflow-hidden">
+          <Image
+            src={event.image}
+            alt={`${companyName} - ${eventId} Event`}
+            fill
+            className="object-cover w-full"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] to-transparent opacity-70"></div>
+          <div className="absolute bottom-0 left-0 w-full p-4 text-white">
+            <h1 className="text-3xl md:text-4xl font-bold">{event?.name}</h1>
+            <h2 className="text-xl md:text-2xl">Hosted by {companyName}</h2>
           </div>
-        )}
-        {/**/}
-        <div className="p-8 bg-[#353c49] ">
-          <h1 className="text-[24px] md:text-[30px] font-bold  mb-2 text-black">
-            Register for {event?.name}
-          </h1>
-          <h2 className="text-[24px] md:text-[30px] text-gray-100  mb-8">
-            Hosted by {companyName}
-          </h2>
+        </div>
+      )}
+      
+      <div className="w-[90%] md:w-[80%] lg:w-[60%] mx-auto bg-[#353c49] rounded-lg shadow-xl overflow-hidden my-6">
+        <div className="p-5 md:p-8">
+          {!event?.image && (
+            <>
+              <h1 className="text-2xl md:text-3xl font-bold mb-2 text-white">
+                Register for {event?.name}
+              </h1>
+              <h2 className="text-xl md:text-2xl text-gray-200 mb-6">
+                Hosted by {companyName}
+              </h2>
+            </>
+          )}
           
           {success ? (
-            <div className="text-center">
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+            <div className="text-center text-white">
+              <div className="bg-green-700 border border-green-600 px-4 py-3 rounded mb-6">
                 <p className="font-bold">Registration Successful!</p>
                 <p>Thank you for registering for this event.</p>
               </div>
               
-              {event?.image && (
-                <div className="w-full h-48 relative mb-6 overflow-hidden group">
-                  <Image
-                    src={event.image}
-                    alt={`${companyName} - ${eventId} Event`}
-                    fill
-                    className="object-contain transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:-rotate-1"
-                  />
-                </div>
-              )}
-              
-              <div className="mb-6">
+              <div className="mb-4">
                 <h3 className="text-lg font-semibold mb-2">Event Details:</h3>
                 <p className="text-white mb-2">
-                  <span className="font-semibold text-[20px]">Date :</span> {event?.date ? new Date(event.date).toLocaleDateString('en-US', {
+                  <span className="font-semibold">Date:</span> {event?.date ? new Date(event.date).toLocaleDateString('en-US', {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
@@ -360,270 +358,212 @@ export default function EventRegistrationPage() {
                   }) : 'Date not specified'}
                 </p>
                 <p className="text-white whitespace-pre-line">
-                  <span className="font-semibold text-[20px]">Description :</span> {event?.description || 'No description available.'}
+                  <span className="font-semibold">Description:</span> {event?.description || 'No description available.'}
                 </p>
               </div>
               
-              <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center">
-                {/*<button*/}
-                {/*  onClick={() => setSuccess(false)}*/}
-                {/*  className="bg-gray-500 hover:bg-gray-400 hover:text-black text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300 cursor-pointer"*/}
-                {/*>*/}
-                {/*  Register Another Person*/}
-                {/*</button>*/}
+              <div className="flex justify-center">
                 <Link
                   href={`/${companyName}/${eventId}`}
-                  className="bg-gray-500 hover:bg-gray-400 hover:text-black text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300 cursor-pointer"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300"
                 >
                   Return to Event
                 </Link>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-3">
               {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                <div className="bg-red-700 border border-red-600 text-white px-4 py-3 rounded mb-4">
                   {error}
                 </div>
               )}
 
-              <div className="relative z-0 w-full mb-5 group">
-                  <input type="text" name="name" id="name"
-                         className="block py-2.5 px-0 w-full pl-2 text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
-                         placeholder=" " value={formData.name}
-                         onChange={handleChange}
-                         disabled={submitting}  required/>
-
-                  <label htmlFor="name"
-                         className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
-                    Name - الاسم 👋 </label>
-                  {formErrors.name && (
-                      <p className="text-red-500 text-xs italic mt-1">{formErrors.name}</p>
-                  )}
-              </div>
-              
-              <div className="relative z-0 w-full mb-5 group">
-                  <input type="text" name="age" id="age"
-                         className="block py-2.5 px-0 w-full pl-2 text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
-                         placeholder=" " value={formData.age}
-                         onChange={handleChange}
-                         disabled={submitting}  required/>
-
-                  <label htmlFor="age"
-                         className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
-                    Age - العمر 🎂 </label>
-                  {formErrors.age && (
-                      <p className="text-red-500 text-xs italic mt-1">{formErrors.age}</p>
-                  )}
-              </div>
-
-              <div className="relative z-0 w-full  mb-5 group">
-                <input type="text" name="phone" id="phone"
-                       className="mt-10 block py-2.5 px-0 pl-2 w-full text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
-                       placeholder=" " value={formData.phone}
-                       onChange={handleChange}
-                       disabled={submitting}
-                       required
-                />
-                <label htmlFor="phone"
-                       className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
-                  Phone Number - رقم الهاتف  📱 </label>
-                {formErrors.phone && (
-                    <p className="text-red-500 text-xs italic mt-1">{formErrors.phone}</p>
-                )}
-              </div>
-
-              <div className="relative z-0 w-full  mb-5 group">
-                <input type="email" name="email" id="email"
-                       className="mt-10 block py-2.5 px-0 w-full pl-2 text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
-                       placeholder=" " value={formData.email}
-                       onChange={handleChange}
-                       disabled={submitting}
-                       required
-                />
-                <label htmlFor="email"
-                       className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
-                  Your Email - البريد الأليكتروني  📧 </label>
-                {formErrors.email && (
-                  <p className="text-red-500 text-xs italic mt-1">{formErrors.email}</p>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <div>
-                  {/* Label for the gender radio group */}
-                  <label htmlFor="gender" className="block mb-2 text-[16px] text-sm font-medium text-white dark:text-white">
-                    Gender
-                  </label>
-
-                  {/* Gender Radio Button Group */}
-                  <ul className="grid w-full gap-6 md:grid-cols-2">
-                    {/* Male Option */}
-                    <li>
-                      <input
-                          type="radio"
-                          id="gender-male"
-                          name="gender"
-                          value="male"
-                          checked={formData.gender === "male"}
+              {/* Personal Information Section */}
+              <div className="mb-1">
+                <h3 className="text-lg font-medium text-white mb-2">Personal Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Name */}
+                  <div className="relative z-0 w-full mb-1 group">
+                    <input type="text" name="name" id="name"
+                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          placeholder="Name - الاسم" value={formData.name}
                           onChange={handleChange}
-                          disabled={submitting}
-                          className="hidden peer"
-                          required
-                      />
-                      <label
-                          htmlFor="gender-male"
-                          className="bg-[#494f5b] inline-flex items-center justify-center w-full p-5 text-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-gray-400 dark:peer-checked:border-gray-700 peer-checked:bg-gray-300 peer-checked:text-black hover:text-gray-600 hover:bg-gray-300 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                      >
-                        <div className="block">
-                          <div className="w-full text-lg font-semibold text-center">🙎🏻‍♂️</div>
-                          <div className="w-full text-center">Male</div>
-                        </div>
-                      </label>
-                    </li>
+                          disabled={submitting} required/>
+                    {formErrors.name && (
+                        <p className="text-red-500 text-xs italic mt-1">{formErrors.name}</p>
+                    )}
+                  </div>
 
-                    {/* Female Option */}
-                    <li>
-                      <input
-                          type="radio"
-                          id="gender-female"
-                          name="gender"
-                          value="female"
-                          checked={formData.gender === "female"}
+                  {/* Phone */}
+                  <div className="relative z-0 w-full mb-1 group">
+                    <input type="text" name="phone" id="phone"
+                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          placeholder="Phone - رقم الهاتف" value={formData.phone}
                           onChange={handleChange}
-                          disabled={submitting}
-                          className="hidden peer"
-                          required
-                      />
-                      <label
-                          htmlFor="gender-female"
-                          className="bg-[#494f5b] inline-flex items-center justify-center w-full p-5 text-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-gray-400 dark:peer-checked:border-gray-700 peer-checked:bg-gray-300 peer-checked:text-black hover:text-gray-600 hover:bg-gray-300 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                      >
-                        <div className="block">
-                          <div className="w-full text-lg font-semibold text-center">🙍🏻‍♀️</div>
-                          <div className="w-full text-center">Female</div>
-                        </div>
-                      </label>
-                    </li>
-                  </ul>
+                          disabled={submitting} required/>
+                    {formErrors.phone && (
+                        <p className="text-red-500 text-xs italic mt-1">{formErrors.phone}</p>
+                    )}
+                  </div>
+                  
+                  {/* Email */}
+                  <div className="relative z-0 w-full mb-1 group">
+                    <input type="email" name="email" id="email"
+                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          placeholder="Email - البريد الإلكتروني" value={formData.email}
+                          onChange={handleChange}
+                          disabled={submitting} required/>
+                    {formErrors.email && (
+                        <p className="text-red-500 text-xs italic mt-1">{formErrors.email}</p>
+                    )}
+                  </div>
+                  
+                  {/* Age */}
+                  <div className="relative z-0 w-full mb-1 group">
+                    <input type="text" name="age" id="age"
+                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          placeholder="Age - العمر" value={formData.age}
+                          onChange={handleChange}
+                          disabled={submitting} required/>
+                    {formErrors.age && (
+                        <p className="text-red-500 text-xs italic mt-1">{formErrors.age}</p>
+                    )}
+                  </div>
+                  
+                  {/* National ID */}
+                  <div className="relative z-0 w-full mb-1 group md:col-span-2">
+                    <input type="text" name="nationalId" id="nationalId"
+                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          placeholder="National ID - الرقم القومي" value={formData.nationalId}
+                          onChange={handleChange}
+                          disabled={submitting} required/>
+                    {formErrors.nationalId && (
+                        <p className="text-red-500 text-xs italic mt-1">{formErrors.nationalId}</p>
+                    )}
+                    <p className="text-gray-300 text-xs mt-1">Your National ID will only be visible to administrators.</p>
+                  </div>
                 </div>
               </div>
 
-              <div className="relative z-0 w-full  mb-5 group">
-                <input type="text" name="college" id="college"
-                       className="mt-10 block py-2.5 px-0 w-full pl-2 text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
-                       placeholder=""
-                       value={formData.college}
-                       onChange={handleChange}
-                       disabled={submitting}
-                       required
-                />
-                <label htmlFor="college"
-                       className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
-                  Collage - الجامعه  🎓
-                </label>
-                {formErrors.college && (
-                  <p className="text-red-500 text-xs italic mt-1">{formErrors.college}</p>
-                )}
+              {/* Educational Information Section */}
+              <div className="mb-1 pt-2">
+                <h3 className="text-lg font-medium text-white mb-2">Educational Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* University */}
+                  <div className="relative z-0 w-full mb-1 group">
+                    <input type="text" name="university" id="university"
+                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          placeholder="University - الجامعة" value={formData.university}
+                          onChange={handleChange}
+                          disabled={submitting} required/>
+                    {formErrors.university && (
+                        <p className="text-red-500 text-xs italic mt-1">{formErrors.university}</p>
+                    )}
+                  </div>
+                  
+                  {/* College */}
+                  <div className="relative z-0 w-full mb-1 group">
+                    <input type="text" name="college" id="college"
+                          className="block w-full p-2 pl-3 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-gray-400 focus:outline-none"
+                          placeholder="College - الكلية" value={formData.college}
+                          onChange={handleChange}
+                          disabled={submitting} required/>
+                    {formErrors.college && (
+                        <p className="text-red-500 text-xs italic mt-1">{formErrors.college}</p>
+                    )}
+                  </div>
+                </div>
               </div>
 
-              <div className="mb-4">
-                  <label htmlFor="status" className="block mb-2 text-[20px] text-sm font-medium text-white dark:text-white">
-                    Status
+              {/* Gender and Status Section */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                {/* Gender */}
+                <div className="mb-1">
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Gender - الجنس
                   </label>
-
-                  <ul className="grid w-full gap-6 md:grid-cols-2">
-
-                    <li>
+                  <div className="flex space-x-4">
+                    <div className="flex items-center">
                       <input
-                          type="radio"
-                          id="status-student"
-                          name="status"
-                          value="student"
-                          checked={formData.status === "student"}
-                          onChange={handleChange}
-                          disabled={submitting}
-                          className="hidden peer"
-                          required
+                        type="radio"
+                        id="gender-male"
+                        name="gender"
+                        value="male"
+                        checked={formData.gender === "male"}
+                        onChange={handleChange}
+                        disabled={submitting}
+                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
                       />
-                      <label
-                          htmlFor="status-student"
-                          className="bg-[#494f5b] inline-flex items-center justify-center w-full p-5 text-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700  peer-checked:border-gray-400 dark:peer-checked:border-gray-700 peer-checked:bg-gray-300 peer-checked:text-black hover:text-gray-600 hover:bg-gray-300 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                      >
-                        <div className="block">
-                          <div className="w-full text-lg font-semibold text-center">👨🏻‍💻</div>
-                          <div className="w-full text-center">Student</div>
-                        </div>
+                      <label htmlFor="gender-male" className="ml-2 text-sm font-medium text-white">
+                        Male - ذكر
                       </label>
-                    </li>
-
-                    <li>
+                    </div>
+                    <div className="flex items-center">
                       <input
-                          type="radio"
-                          id="status-graduate"
-                          name="status"
-                          value="graduate"
-                          checked={formData.status === "graduate"}
-                          onChange={handleChange}
-                          disabled={submitting}
-                          className="hidden peer"
-                          required
+                        type="radio"
+                        id="gender-female"
+                        name="gender"
+                        value="female"
+                        checked={formData.gender === "female"}
+                        onChange={handleChange}
+                        disabled={submitting}
+                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
                       />
-                      <label
-                          htmlFor="status-graduate"
-                          className="bg-[#494f5b] inline-flex items-center justify-center w-full p-5 text-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700  peer-checked:border-gray-400 dark:peer-checked:border-gray-700 peer-checked:bg-gray-300 peer-checked:text-black hover:text-gray-600 hover:bg-gray-300 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                      >
-                        <div className="block">
-                          <div className="w-full text-lg font-semibold text-center">🎓️</div>
-                          <div className="w-full text-center">Graduate</div>
-                        </div>
+                      <label htmlFor="gender-female" className="ml-2 text-sm font-medium text-white">
+                        Female - أنثى
                       </label>
-                    </li>
-                  </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Status */}
+                <div className="mb-1">
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Status - الحالة
+                  </label>
+                  <div className="flex space-x-4">
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        id="status-student"
+                        name="status"
+                        value="student"
+                        checked={formData.status === "student"}
+                        onChange={handleChange}
+                        disabled={submitting}
+                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
+                      />
+                      <label htmlFor="status-student" className="ml-2 text-sm font-medium text-white">
+                        Student - طالب
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        id="status-graduate"
+                        name="status"
+                        value="graduate"
+                        checked={formData.status === "graduate"}
+                        onChange={handleChange}
+                        disabled={submitting}
+                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
+                      />
+                      <label htmlFor="status-graduate" className="ml-2 text-sm font-medium text-white">
+                        Graduate - خريج
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="relative z-0 w-full  mb-5 group">
-                <input type="text" name="nationalId" id="nationalId"
-                       className="mt-10 block py-2.5 px-0 w-full pl-2 text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
-                       placeholder=" " value={formData.nationalId}
-                       onChange={handleChange}
-                       disabled={submitting}
-                       required
-                />
-                <label htmlFor="nationalId"
-                       className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
-                  National ID - الرقم القومي 🪪
-                </label>
-                {formErrors.nationalId && (
-                    <p className="text-red-500 text-xs italic mt-1">{formErrors.nationalId}</p>
-                )}
-                <p className="text-light text-[16px]     text-white  mt-3">
-                  Your National ID will only be visible to administrators.
-                </p>
-              </div>
-
-              <div className="relative z-0 w-full mb-5 group">
-                  <input type="text" name="university" id="university"
-                         className="block py-2.5 px-0 w-full pl-2 text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
-                         placeholder=" " value={formData.university}
-                         onChange={handleChange}
-                         disabled={submitting}  required/>
-
-                  <label htmlFor="university"
-                         className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
-                    University - الجامعة 🏫 </label>
-                  {formErrors.university && (
-                      <p className="text-red-500 text-xs italic mt-1">{formErrors.university}</p>
-                  )}
-              </div>
-
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center mt-6">
                 <button
                   type="submit"
-                  className="bg-gray-500 hover:bg-gray-400 hover:text-black  text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors duration-300 cursor-pointer"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 w-full md:w-auto"
                   disabled={submitting}
                 >
-                  {submitting ? 'Submitting...' : '✨ Register for Event ✨'}
+                  {submitting ? 'Submitting...' : 'Register for Event'}
                 </button>
               </div>
             </form>
