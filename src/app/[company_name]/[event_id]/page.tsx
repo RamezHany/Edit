@@ -23,6 +23,7 @@ export default function EventDetailsPage() {
   const companyName = decodeURIComponent(params.company_name as string);
   const eventId = decodeURIComponent(params.event_id as string);
   
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [event, setEvent] = useState<Event | null>(null);
   const [eventDisabled, setEventDisabled] = useState(false);
@@ -32,6 +33,7 @@ export default function EventDetailsPage() {
     // Fetch event details
     const fetchEventDetails = async () => {
       try {
+        setLoading(true);
         console.log('Fetching events for company:', companyName);
         const response = await fetch(`/api/events?company=${encodeURIComponent(companyName)}`);
         
@@ -75,6 +77,8 @@ export default function EventDetailsPage() {
         if (!companyDisabled) {
           setError('Event not found or no longer available');
         }
+      } finally {
+        setLoading(false);
       }
     };
     
@@ -85,7 +89,21 @@ export default function EventDetailsPage() {
     router.push(`/${companyName}/${eventId}/register`);
   };
 
-  if (error) {
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-xl text-indigo-700">
+          <svg className="animate-spin h-8 w-8 mr-2 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Loading...
+        </div>
+      </div>
+    );
+  }
+
+  if (error && !loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md text-center card-shadow">
@@ -247,15 +265,15 @@ export default function EventDetailsPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-shadow">
           {event?.image && (
             <div className="w-full relative" style={{ aspectRatio: '3/1' }}>
-              <Image
-                src={event.image}
+                <Image
+                    src={event.image}
                 alt={`${event.name} Event`}
-                fill
+                    fill
                 style={{ objectFit: 'cover' }}
-              />
-            </div>
+                />
+              </div>
           )}
-          
+
           <div className="p-6 md:p-8">
             {/* About this event section */}
             <div className="mb-8">
@@ -264,7 +282,7 @@ export default function EventDetailsPage() {
                 {event?.description || "No description available."}
               </p>
             </div>
-            
+
             {/* Registration count */}
             <div className="mb-8 bg-blue-50 rounded-lg p-5">
               <div className="flex items-center">
@@ -283,7 +301,7 @@ export default function EventDetailsPage() {
             {/* Registration button */}
             <div className="text-center">
               <button
-                onClick={handleRegisterClick}
+                  onClick={handleRegisterClick}
                 className="w-full md:w-auto flex justify-center py-3.5 px-6 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
               >
                 Register Now
@@ -291,7 +309,7 @@ export default function EventDetailsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Footer */}
         <div className="mt-10 text-center">
           <div className="inline-flex items-center justify-center text-xs text-gray-500 bg-blue-50 px-4 py-2 rounded-full">
@@ -303,6 +321,6 @@ export default function EventDetailsPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
   );
 } 
