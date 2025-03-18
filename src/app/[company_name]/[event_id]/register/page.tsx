@@ -320,95 +320,81 @@ export default function EventRegistrationPage() {
       </div>
       
       {event?.image && (
-        <div className="w-full h-56 md:h-80 relative overflow-hidden bg-gradient-to-b from-blue-900 to-purple-900">
-          {/* Animated circles in background */}
-          <div className="absolute inset-0 overflow-hidden z-0">
-            <div className="absolute w-40 h-40 rounded-full bg-gradient-to-r from-pink-500/30 to-purple-500/30 -left-10 -top-10 animate-pulse"></div>
-            <div className="absolute w-56 h-56 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 right-10 top-20 animate-pulse"></div>
-            <div className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 bottom-5 left-1/4 animate-pulse"></div>
+        <div className="w-full h-56 md:h-72 relative overflow-hidden">
+          {/* الصورة الرئيسية بتاخد المساحة كاملة كبنر */}
+          <div className="absolute inset-0 z-10">
+            <Image
+              src={event.image}
+              alt={`${companyName} - ${eventId} Event`}
+              fill
+              className="object-cover w-full"
+            />
+            {/* طبقة تدرج لتحسين قراءة النص */}
+            <div className="absolute inset-0 bg-gradient-to-t from-purple-900/90 via-purple-900/50 to-transparent"></div>
           </div>
           
-          {/* Sparkling effect */}
-          <div className="absolute inset-0 z-10 opacity-30">
-            <div className="absolute w-2 h-2 rounded-full bg-white top-1/4 left-1/4 opacity-80 animate-pulse"></div>
-            <div className="absolute w-1 h-1 rounded-full bg-white top-1/3 left-2/3 opacity-80 animate-ping"></div>
-            <div className="absolute w-2 h-2 rounded-full bg-white top-2/3 left-1/2 opacity-80 animate-pulse"></div>
-            <div className="absolute w-1 h-1 rounded-full bg-white top-3/4 left-1/5 opacity-80 animate-ping"></div>
-            <div className="absolute w-2 h-2 rounded-full bg-white top-1/5 left-3/4 opacity-80 animate-pulse"></div>
-            <div className="absolute w-1 h-1 rounded-full bg-white top-1/2 left-1/3 opacity-80 animate-ping"></div>
-            <div className="absolute w-2 h-2 rounded-full bg-white top-2/5 left-4/5 opacity-80 animate-pulse"></div>
-            <div className="absolute w-1 h-1 rounded-full bg-white top-4/5 left-2/5 opacity-80 animate-ping"></div>
-            <div className="absolute w-2 h-2 rounded-full bg-white top-3/5 left-3/5 opacity-80 animate-pulse"></div>
-            <div className="absolute w-1 h-1 rounded-full bg-white top-1/6 left-1/6 opacity-80 animate-ping"></div>
+          {/* تأثيرات خلفية متحركة تظهر فوق الصورة */}
+          <div className="absolute inset-0 z-20 opacity-30 pointer-events-none overflow-hidden">
+            <div className="absolute w-20 h-20 rounded-full bg-pink-500/30 -left-5 top-10 animate-pulse"></div>
+            <div className="absolute w-32 h-32 rounded-full bg-blue-500/20 right-10 bottom-5 animate-pulse"></div>
+            <div className="absolute w-16 h-16 rounded-full bg-purple-500/30 left-1/4 top-1/3 animate-ping"></div>
+            <div className="absolute w-24 h-24 rounded-full bg-yellow-500/20 right-1/4 top-1/2 animate-pulse"></div>
           </div>
           
-          {/* Main image with effects */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-            <div className="relative">
-              {/* Outer glow */}
-              <div className="absolute -inset-3 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 rounded-full blur-lg opacity-70 animate-spin"></div>
-              
-              {/* Image container */}
-              <div className="h-40 w-40 md:h-56 md:w-56 rounded-full relative overflow-hidden border-4 border-white/50 shadow-2xl transform hover:scale-105 transition-all duration-500 group">
-                <Image
-                  src={event.image}
-                  alt={`${companyName} - ${eventId} Event`}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-all duration-700"
-                />
-                
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
-                  <p className="text-white text-sm md:text-base font-medium text-center">{event.name}</p>
-                </div>
-              </div>
-              
-              {/* Decorative circles */}
-              <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-pink-500 shadow-lg animate-bounce"></div>
-              <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-blue-500 shadow-lg animate-bounce delay-700"></div>
-              <div className="absolute top-1/2 -right-4 w-4 h-4 rounded-full bg-purple-500 shadow-lg animate-ping"></div>
-            </div>
+          {/* نجوم متلألئة */}
+          <div className="absolute inset-0 z-20 opacity-60 pointer-events-none">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} 
+                   className="absolute w-1 h-1 bg-white rounded-full animate-ping"
+                   style={{
+                     top: `${20 + i * 15}%`,
+                     left: `${10 + i * 12}%`,
+                     animationDelay: `${i * 0.2}s`,
+                     animationDuration: `${1 + i * 0.3}s`
+                   }}
+              ></div>
+            ))}
           </div>
           
-          {/* Event details at bottom */}
-          <div className="absolute bottom-0 left-0 w-full p-6 text-white z-30 bg-gradient-to-t from-black/70 to-transparent">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-2xl md:text-4xl font-bold mb-1 drop-shadow-lg">{event?.name}</h1>
-              <h2 className="text-lg md:text-2xl drop-shadow-md flex items-center justify-center">
+          {/* معلومات الحدث */}
+          <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 z-30">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-2xl md:text-4xl font-bold mb-1 text-white drop-shadow-lg">{event?.name}</h1>
+              <h2 className="text-base md:text-xl text-white/90 flex items-center">
                 <span className="inline-block mr-2">✨</span>
                 Hosted by {companyName}
                 <span className="inline-block ml-2">✨</span>
               </h2>
             </div>
           </div>
-          
-          {/* Side decorative elements */}
-          <div className="absolute -left-10 top-1/3 h-20 w-20 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 blur-xl opacity-50 animate-pulse"></div>
-          <div className="absolute -right-10 top-2/3 h-24 w-24 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 blur-xl opacity-50 animate-pulse delay-1000"></div>
         </div>
       )}
       
-      <div className="w-[95%] md:w-[80%] lg:w-[60%] mx-auto bg-[#353c49]/90 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden my-4 md:my-6 hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] transition-all duration-500 border border-purple-500/30">
-        <div className="p-4 md:p-8 relative">
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-500 rounded-bl-full opacity-20"></div>
-          <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-blue-500 to-green-500 rounded-tr-full opacity-20"></div>
+      {/* الفورم بتصميم محسن للموبايل */}
+      <div className="w-[98%] md:w-[90%] lg:w-[75%] mx-auto bg-[#353c49]/95 backdrop-blur-sm rounded-t-none rounded-b-3xl shadow-2xl overflow-hidden -mt-2 md:-mt-4 border-t-0 border-x border-b border-purple-500/30 relative z-30"
+           style={{ marginTop: event?.image ? "-1rem" : "1rem" }}>
+        <div className="p-4 md:p-6 relative">
+          {/* عناصر الزخرفة */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-bl-full"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-500/10 to-cyan-500/10 rounded-tr-full"></div>
           
+          {/* عنوان الفورم (في حالة عدم وجود صورة) */}
           {!event?.image && (
             <>
-              <h1 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 text-white relative inline-block">
+              <h1 className="text-xl md:text-3xl font-bold mb-2 text-white relative inline-block">
                 Register for {event?.name} ✨
                 <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-blue-500 rounded"></span>
               </h1>
-              <h2 className="text-lg md:text-2xl text-gray-200 mb-4 md:mb-6">
+              <h2 className="text-lg md:text-2xl text-gray-200 mb-4">
                 Hosted by {companyName} 🎉
               </h2>
             </>
           )}
           
+          {/* محتوى النجاح أو الفورم */}
           {success ? (
             <div className="text-center text-white">
-              <div className="bg-green-700/80 backdrop-blur-sm border border-green-400 px-4 py-6 rounded-2xl mb-4 md:mb-6 relative overflow-hidden group">
+              <div className="bg-green-600/90 backdrop-blur-sm border border-green-400 px-4 py-6 rounded-2xl mb-4 md:mb-6 relative overflow-hidden group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-emerald-400 rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
                 <div className="relative flex flex-col items-center">
                   <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-3 animate-bounce">
@@ -452,8 +438,9 @@ export default function EventRegistrationPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3 relative">
+              {/* شريط الإشعارات بلون جديد */}
               {error && (
-                <div className="bg-red-700/80 backdrop-blur-sm border border-red-400 text-white px-4 py-3 rounded-xl mb-4">
+                <div className="bg-gradient-to-r from-red-600/80 to-orange-600/80 backdrop-blur-sm border border-red-400 text-white px-4 py-3 rounded-xl mb-4 shadow-lg">
                   <div className="flex items-center">
                     <span className="text-2xl mr-2">⚠️</span>
                     <p>{error}</p>
@@ -562,7 +549,7 @@ export default function EventRegistrationPage() {
               </div>
 
               {/* Educational Information Section */}
-              <div className="mb-1 md:mb-2 pt-1 md:pt-2">
+              <div className="mb-1 md:mb-2 pt-2">
                 <h3 className="text-base md:text-lg font-medium text-white mb-2 flex items-center">
                   <span className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center mr-2">🎓</span>
                   <span className="relative">
@@ -607,8 +594,8 @@ export default function EventRegistrationPage() {
                 </div>
               </div>
 
-              {/* Gender and Status Section - Changed to be in one row on mobile */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
+              {/* Gender and Status Section - محسن للموبايل */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                 {/* Gender */}
                 <div className="relative">
                   <label className="text-sm font-medium text-white mb-2 flex items-center">
@@ -702,14 +689,15 @@ export default function EventRegistrationPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-center mt-6">
+              {/* زر التسجيل محسن للموبايل */}
+              <div className="flex items-center justify-center mt-6 md:mt-8">
                 <button
                   type="submit"
-                  className="relative overflow-hidden group inline-flex items-center rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-3 text-lg font-bold text-white transition-all duration-300 ease-in-out hover:shadow-[0_0_15px_rgba(124,58,237,0.5)] hover:scale-105"
+                  className="relative overflow-hidden group inline-flex items-center rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-3 w-full md:w-auto text-center md:text-lg font-bold text-white transition-all duration-300 ease-in-out hover:shadow-[0_0_15px_rgba(124,58,237,0.5)] hover:scale-105"
                   disabled={submitting}
                 >
                   <span className="absolute h-0 w-0 rounded-full bg-white opacity-10 transition-all duration-300 ease-out group-hover:h-56 group-hover:w-56"></span>
-                  <span className="relative flex items-center">
+                  <span className="relative flex items-center justify-center w-full">
                     {submitting ? (
                       <>
                         <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
