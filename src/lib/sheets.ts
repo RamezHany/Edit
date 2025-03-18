@@ -449,7 +449,7 @@ export const deleteTable = async (sheetName: string, tableName: string) => {
   }
 };
 
-// Update a specific row in a sheet
+// Update a specific row in a sheetuuuuu
 export const updateRow = async (sheetName: string, rowIndex: number, values: unknown[]) => {
   try {
     const response = await sheets.spreadsheets.values.update({
