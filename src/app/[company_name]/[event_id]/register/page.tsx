@@ -317,40 +317,40 @@ export default function EventRegistrationPage() {
             src={event.image}
             alt={`${companyName} - ${eventId} Event`}
             fill
-            className="object-cover w-full"
+            className="object-cover w-full hover:scale-105 transition-transform duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] to-transparent opacity-70"></div>
           <div className="absolute bottom-0 left-0 w-full p-4 text-white">
-            <h1 className="text-2xl md:text-4xl font-bold">{event?.name}</h1>
+            <h1 className="text-2xl md:text-4xl font-bold animate-pulse">{event?.name}</h1>
             <h2 className="text-lg md:text-2xl">Hosted by {companyName}</h2>
           </div>
         </div>
       )}
       
-      <div className="w-[95%] md:w-[80%] lg:w-[60%] mx-auto bg-[#353c49] rounded-lg shadow-xl overflow-hidden my-4 md:my-6">
+      <div className="w-[95%] md:w-[80%] lg:w-[60%] mx-auto bg-[#353c49] rounded-lg shadow-xl overflow-hidden my-4 md:my-6 hover:shadow-2xl transition-all duration-300">
         <div className="p-4 md:p-8">
           {!event?.image && (
             <>
               <h1 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 text-white">
-                Register for {event?.name}
+                Register for {event?.name} ✨
               </h1>
               <h2 className="text-lg md:text-2xl text-gray-200 mb-4 md:mb-6">
-                Hosted by {companyName}
+                Hosted by {companyName} 🎉
               </h2>
             </>
           )}
           
           {success ? (
             <div className="text-center text-white">
-              <div className="bg-green-700 border border-green-600 px-4 py-3 rounded mb-4 md:mb-6">
-                <p className="font-bold">Registration Successful!</p>
-                <p>Thank you for registering for this event.</p>
+              <div className="bg-green-700 border border-green-600 px-4 py-3 rounded mb-4 md:mb-6 animate-bounce">
+                <p className="font-bold">Registration Successful! 🎊</p>
+                <p>Thank you for registering for this event!</p>
               </div>
               
               <div className="mb-4">
                 <h3 className="text-lg font-semibold mb-2">Event Details:</h3>
                 <p className="text-white mb-2">
-                  <span className="font-semibold">Date:</span> {event?.date ? new Date(event.date).toLocaleDateString('en-US', {
+                  <span className="font-semibold">📅 Date:</span> {event?.date ? new Date(event.date).toLocaleDateString('en-US', {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
@@ -358,16 +358,16 @@ export default function EventRegistrationPage() {
                   }) : 'Date not specified'}
                 </p>
                 <p className="text-white whitespace-pre-line">
-                  <span className="font-semibold">Description:</span> {event?.description || 'No description available.'}
+                  <span className="font-semibold">📝 Description:</span> {event?.description || 'No description available.'}
                 </p>
               </div>
               
               <div className="flex justify-center">
                 <Link
                   href={`/${companyName}/${eventId}`}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
                 >
-                  Return to Event
+                  Return to Event 🔙
                 </Link>
               </div>
             </div>
@@ -375,19 +375,21 @@ export default function EventRegistrationPage() {
             <form onSubmit={handleSubmit} className="space-y-2 md:space-y-3">
               {error && (
                 <div className="bg-red-700 border border-red-600 text-white px-3 py-2 rounded mb-3">
-                  {error}
+                  {error} 😥
                 </div>
               )}
 
               {/* Personal Information Section */}
               <div className="mb-0 md:mb-1">
-                <h3 className="text-base md:text-lg font-medium text-white mb-1 md:mb-2">Personal Information</h3>
+                <h3 className="text-base md:text-lg font-medium text-white mb-1 md:mb-2 flex items-center">
+                  <span className="mr-2 animate-pulse">👤</span> Personal Information
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {/* Name */}
-                  <div className="relative z-0 w-full mb-1 group">
+                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
                     <input type="text" name="name" id="name"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
-                          placeholder="Name - الاسم" value={formData.name}
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
+                          placeholder="Name - الاسم 👋" value={formData.name}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.name && (
@@ -396,10 +398,10 @@ export default function EventRegistrationPage() {
                   </div>
 
                   {/* Phone */}
-                  <div className="relative z-0 w-full mb-1 group">
+                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
                     <input type="text" name="phone" id="phone"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
-                          placeholder="Phone - رقم الهاتف" value={formData.phone}
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
+                          placeholder="Phone - رقم الهاتف 📱" value={formData.phone}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.phone && (
@@ -408,10 +410,10 @@ export default function EventRegistrationPage() {
                   </div>
                   
                   {/* Email */}
-                  <div className="relative z-0 w-full mb-1 group">
+                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
                     <input type="email" name="email" id="email"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
-                          placeholder="Email - البريد الإلكتروني" value={formData.email}
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
+                          placeholder="Email - البريد الإلكتروني 📧" value={formData.email}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.email && (
@@ -420,10 +422,10 @@ export default function EventRegistrationPage() {
                   </div>
                   
                   {/* Age */}
-                  <div className="relative z-0 w-full mb-1 group">
+                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
                     <input type="text" name="age" id="age"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
-                          placeholder="Age - العمر" value={formData.age}
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
+                          placeholder="Age - العمر 🎂" value={formData.age}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.age && (
@@ -434,27 +436,29 @@ export default function EventRegistrationPage() {
               </div>
 
               {/* National ID */}
-              <div className="relative z-0 w-full mb-1 group">
+              <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
                 <input type="text" name="nationalId" id="nationalId"
-                      className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
-                      placeholder="National ID - الرقم القومي" value={formData.nationalId}
+                      className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
+                      placeholder="National ID - الرقم القومي 🪪" value={formData.nationalId}
                       onChange={handleChange}
                       disabled={submitting} required/>
                 {formErrors.nationalId && (
                     <p className="text-red-500 text-xs italic mt-0.5">{formErrors.nationalId}</p>
                 )}
-                <p className="text-gray-300 text-xs mt-0.5">Your National ID will only be visible to administrators.</p>
+                <p className="text-gray-300 text-xs mt-0.5">Your National ID will only be visible to administrators. 🔒</p>
               </div>
 
               {/* Educational Information Section */}
               <div className="mb-0 md:mb-1 pt-1 md:pt-2">
-                <h3 className="text-base md:text-lg font-medium text-white mb-1 md:mb-2">Educational Information</h3>
+                <h3 className="text-base md:text-lg font-medium text-white mb-1 md:mb-2 flex items-center">
+                  <span className="mr-2 animate-pulse">🎓</span> Educational Information
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {/* University */}
-                  <div className="relative z-0 w-full mb-1 group">
+                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
                     <input type="text" name="university" id="university"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
-                          placeholder="University - الجامعة" value={formData.university}
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
+                          placeholder="University - الجامعة 🏫" value={formData.university}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.university && (
@@ -463,10 +467,10 @@ export default function EventRegistrationPage() {
                   </div>
                   
                   {/* College */}
-                  <div className="relative z-0 w-full mb-1 group">
+                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
                     <input type="text" name="college" id="college"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none"
-                          placeholder="College - الكلية" value={formData.college}
+                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
+                          placeholder="College - الكلية 🏛️" value={formData.college}
                           onChange={handleChange}
                           disabled={submitting} required/>
                     {formErrors.college && (
@@ -479,12 +483,12 @@ export default function EventRegistrationPage() {
               {/* Gender and Status Section - Changed to be in one row on mobile */}
               <div className="grid grid-cols-2 gap-2 mt-2">
                 {/* Gender */}
-                <div className="mb-1">
-                  <label className="block text-sm font-medium text-white mb-1">
-                    Gender - الجنس
+                <div className="mb-1 transform transition duration-300 hover:translate-y-[-2px]">
+                  <label className="block text-sm font-medium text-white mb-1 flex items-center">
+                    <span className="mr-1">👫</span> Gender - الجنس
                   </label>
                   <div className="flex flex-col sm:flex-row sm:space-x-4">
-                    <div className="flex items-center mb-1 sm:mb-0">
+                    <div className="flex items-center mb-1 sm:mb-0 hover:bg-[#454d5d] p-1 rounded-md transition-colors">
                       <input
                         type="radio"
                         id="gender-male"
@@ -496,10 +500,10 @@ export default function EventRegistrationPage() {
                         className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
                       />
                       <label htmlFor="gender-male" className="ml-2 text-sm font-medium text-white">
-                        Male - ذكر
+                        Male - ذكر 👨
                       </label>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center hover:bg-[#454d5d] p-1 rounded-md transition-colors">
                       <input
                         type="radio"
                         id="gender-female"
@@ -511,19 +515,19 @@ export default function EventRegistrationPage() {
                         className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
                       />
                       <label htmlFor="gender-female" className="ml-2 text-sm font-medium text-white">
-                        Female - أنثى
+                        Female - أنثى 👩
                       </label>
                     </div>
                   </div>
                 </div>
 
                 {/* Status */}
-                <div className="mb-1">
-                  <label className="block text-sm font-medium text-white mb-1">
-                    Status - الحالة
+                <div className="mb-1 transform transition duration-300 hover:translate-y-[-2px]">
+                  <label className="block text-sm font-medium text-white mb-1 flex items-center">
+                    <span className="mr-1">🧑‍🎓</span> Status - الحالة
                   </label>
                   <div className="flex flex-col sm:flex-row sm:space-x-4">
-                    <div className="flex items-center mb-1 sm:mb-0">
+                    <div className="flex items-center mb-1 sm:mb-0 hover:bg-[#454d5d] p-1 rounded-md transition-colors">
                       <input
                         type="radio"
                         id="status-student"
@@ -535,10 +539,10 @@ export default function EventRegistrationPage() {
                         className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
                       />
                       <label htmlFor="status-student" className="ml-2 text-sm font-medium text-white">
-                        Student - طالب
+                        Student - طالب 📚
                       </label>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center hover:bg-[#454d5d] p-1 rounded-md transition-colors">
                       <input
                         type="radio"
                         id="status-graduate"
@@ -550,7 +554,7 @@ export default function EventRegistrationPage() {
                         className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
                       />
                       <label htmlFor="status-graduate" className="ml-2 text-sm font-medium text-white">
-                        Graduate - خريج
+                        Graduate - خريج 🎓
                       </label>
                     </div>
                   </div>
@@ -560,10 +564,10 @@ export default function EventRegistrationPage() {
               <div className="flex items-center justify-center mt-4">
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 w-full"
+                  className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
                   disabled={submitting}
                 >
-                  {submitting ? 'Submitting...' : 'Register for Event'}
+                  {submitting ? 'Submitting... ⏳' : '✨ Register Now! ✨'}
                 </button>
               </div>
             </form>
