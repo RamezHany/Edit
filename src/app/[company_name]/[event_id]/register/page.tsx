@@ -15,6 +15,7 @@ interface FormData {
   nationalId: string;
   age: string;
   university: string;
+  level?: string; // Optional level field for students
 }
 
 interface FormErrors {
@@ -25,6 +26,7 @@ interface FormErrors {
   nationalId?: string;
   age?: string;
   university?: string;
+  level?: string; // Optional level field validation
 }
 
 interface Event {
@@ -54,6 +56,7 @@ export default function EventRegistrationPage() {
     nationalId: '',
     age: '',
     university: '',
+    level: '1', // Default level for students
   });
   
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -169,6 +172,11 @@ export default function EventRegistrationPage() {
         return '';
       case 'nationalId':
         return value.length < 8 ? 'Please enter a valid National ID' : '';
+      case 'level':
+        if (formData.status === 'student' && (value === '' || !['1', '2', '3', '4', '5'].includes(value))) {
+          return 'Please select a valid level';
+        }
+        return '';
       default:
         return value.length < 1 ? 'This field is required' : '';
     }
@@ -185,8 +193,11 @@ export default function EventRegistrationPage() {
       if (value === '' || /^\d+$/.test(value)) {
         setFormData((prev) => ({ ...prev, [name]: value }));
       }
+    } else if (name === 'status' && value === 'graduate') {
+      // If status changes to graduate, clear the level field
+      setFormData((prev) => ({ ...prev, [name]: value, level: '' }));
     } else {
-    setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
     
     // Validate field on change
@@ -274,6 +285,7 @@ export default function EventRegistrationPage() {
         nationalId: '',
         age: '',
         university: '',
+        level: '1', // Default level for students
       });
       setFormErrors({});
     } catch (error) {
@@ -825,9 +837,34 @@ export default function EventRegistrationPage() {
                         />
                         <span className={`${formData.status === 'graduate' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Graduate</span>
                       </label>
+                    </div>
                   </div>
-              </div>
-              </div>
+                </div>
+
+                {/* Level - Only shown when status is student */}
+                {formData.status === 'student' && (
+                  <div className="mt-5">
+                    <label htmlFor="level" className="form-label">Student Level</label>
+                    <select
+                      id="level"
+                      name="level"
+                      className="form-input"
+                      value={formData.level || '1'}
+                      onChange={handleChange}
+                      disabled={submitting}
+                      required
+                    >
+                      <option value="1">Level 1</option>
+                      <option value="2">Level 2</option>
+                      <option value="3">Level 3</option>
+                      <option value="4">Level 4</option>
+                      <option value="5">Level 5</option>
+                    </select>
+                    {formErrors.level && (
+                      <p className="mt-1 text-sm text-red-600">{formErrors.level}</p>
+                    )}
+                  </div>
+                )}
 
                 {/* Submit Button */}
                 <div className="pt-6">
