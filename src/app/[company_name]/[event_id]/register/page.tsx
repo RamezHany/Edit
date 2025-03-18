@@ -804,4 +804,90 @@ export default function EventRegistrationPage() {
                         />
                         <span className={`${formData.gender === 'male' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Male</span>
                       </label>
-                      <label className={`
+                      <label className={`flex-1 radio-label ${formData.gender === 'female' ? 'radio-label-selected' : ''}`}>
+                      <input
+                          type="radio"
+                          name="gender"
+                          value="female"
+                          className="sr-only"
+                          checked={formData.gender === "female"}
+                          onChange={handleChange}
+                          disabled={submitting}
+                        />
+                        <span className={`${formData.gender === 'female' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Female</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Status */}
+                  <div>
+                    <label className="form-label">Status</label>
+                    <div className="flex space-x-4">
+                      <label className={`flex-1 radio-label ${formData.status === 'student' ? 'radio-label-selected' : ''}`}>
+                      <input
+                          type="radio"
+                          name="status"
+                          value="student"
+                          className="sr-only"
+                          checked={formData.status === "student"}
+                          onChange={handleChange}
+                          disabled={submitting}
+                        />
+                        <span className={`${formData.status === 'student' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Student</span>
+                      </label>
+                      <label className={`flex-1 radio-label ${formData.status === 'graduate' ? 'radio-label-selected' : ''}`}>
+                      <input
+                          type="radio"
+                          name="status"
+                          value="graduate"
+                          className="sr-only"
+                          checked={formData.status === "graduate"}
+                          onChange={handleChange}
+                          disabled={submitting}
+                        />
+                        <span className={`${formData.status === 'graduate' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Graduate</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-6">
+                  <button
+                    type="submit"
+                    className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                    disabled={submitting}
+                  >
+                    {submitting ? (
+                      <div className="flex items-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
+                      </div>
+                    ) : (
+                      "JOIN NOW! 🚀"
+                    )}
+                  </button>
+                  <p className="text-center text-sm text-gray-500 mt-3">By registering, you&apos;re taking an awesome step!</p>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+        
+        {/* Footer */}
+        <div className="mt-10 text-center">
+          <div className="inline-flex items-center justify-center text-xs text-gray-500 bg-blue-50 px-4 py-2 rounded-full">
+            <svg className="w-3 h-3 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>Powered by </span>
+            <span className="font-medium text-blue-600 ml-1">illustraV</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
