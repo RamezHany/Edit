@@ -190,7 +190,7 @@ export default function EventRegistrationPage() {
         setFormData((prev) => ({ ...prev, [name]: value }));
       }
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     }
     
     // Validate field on change
@@ -497,7 +497,7 @@ export default function EventRegistrationPage() {
             {companyName && (
               <div className="text-sm uppercase tracking-widest mb-1 font-bold text-blue-600">
                 {companyName}
-              </div>
+          </div>
             )}
             <h1 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600 tracking-tight">
               {event?.name || 'Event Registration'} 
@@ -514,8 +514,8 @@ export default function EventRegistrationPage() {
                 month: 'long',
                 day: 'numeric'
               })}
-            </div>
-          )}
+          </div>
+        )}
         </header>
         
         {/* Form Card */}
@@ -622,7 +622,7 @@ export default function EventRegistrationPage() {
             {!loading && !success && !eventDisabled && !companyDisabled && (
               <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Form Error */}
-                {error && (
+              {error && (
                   <div className="p-4 rounded-md bg-red-50 mb-6">
                     <div className="flex">
                       <svg className="h-5 w-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -704,7 +704,7 @@ export default function EventRegistrationPage() {
                         className="form-input" 
                         placeholder="Enter your age" 
                         value={formData.age}
-                        onChange={handleChange}
+                            onChange={handleChange}
                         disabled={submitting}
                         required
                         pattern="\d+"
@@ -816,10 +816,10 @@ export default function EventRegistrationPage() {
                         />
                         <span className={`${formData.gender === 'female' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Female</span>
                       </label>
-                    </div>
-                  </div>
+                </div>
+              </div>
 
-                  {/* Status */}
+                {/* Status */}
                   <div>
                     <label className="form-label">Status</label>
                     <div className="flex space-x-4">
@@ -847,17 +847,17 @@ export default function EventRegistrationPage() {
                         />
                         <span className={`${formData.status === 'graduate' ? 'text-white' : 'text-gray-700'} z-10 relative`}>Graduate</span>
                       </label>
-                    </div>
                   </div>
-                </div>
+              </div>
+              </div>
 
                 {/* Submit Button */}
                 <div className="pt-6">
-                  <button
-                    type="submit"
+                <button
+                  type="submit"
                     className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
-                    disabled={submitting}
-                  >
+                  disabled={submitting}
+                >
                     {submitting ? (
                       <div className="flex items-center">
                         <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -869,11 +869,11 @@ export default function EventRegistrationPage() {
                     ) : (
                       "JOIN NOW! 🚀"
                     )}
-                  </button>
+                </button>
                   <p className="text-center text-sm text-gray-500 mt-3">By registering, you&apos;re taking an awesome step!</p>
-                </div>
-              </form>
-            )}
+              </div>
+            </form>
+          )}
           </div>
         </div>
         
@@ -890,4 +890,4 @@ export default function EventRegistrationPage() {
       </div>
     </div>
   );
-}
+} 
