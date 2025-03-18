@@ -363,17 +363,47 @@ export default function EventRegistrationPage() {
         
         .form-input {
           width: 100%;
-          padding: 0.75rem;
+          padding: 0.85rem 1rem;
           border-radius: 8px;
           border: 1px solid #e2e8f0;
           background-color: white;
           transition: all 0.2s;
+          font-size: 0.95rem;
         }
         
         .form-input:focus {
           outline: none;
           border-color: #3b82f6;
           box-shadow: 0 0 0 1px #3b82f6;
+        }
+        
+        .form-input::placeholder {
+          color: #a0aec0;
+        }
+        
+        .section-title {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #2d3748;
+          margin-bottom: 1.25rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .radio-label {
+          display: flex;
+          align-items: center;
+          padding: 0.75rem 1.25rem;
+          border-radius: 8px;
+          border: 1px solid #e2e8f0;
+          background-color: white;
+          transition: all 0.2s;
+          cursor: pointer;
+        }
+        
+        .radio-label-selected {
+          background-color: #ebf5ff;
+          border-color: #bfdbfe;
         }
         
         .btn-primary {
@@ -392,6 +422,11 @@ export default function EventRegistrationPage() {
           background-color: #1e429f;
         }
         
+        /* Improved card shadow */
+        .card-shadow {
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
         @keyframes shine {
           0% {
             transform: translateX(0);
@@ -407,17 +442,17 @@ export default function EventRegistrationPage() {
       `}</style>
       
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
-        <header className="mb-8 text-center">
-          <div className="mb-2">
+        <header className="mb-10 text-center">
+          <div className="mb-3">
             {companyName && (
-              <div className="text-sm font-medium text-blue-600 uppercase tracking-wider mb-1">
+              <div className="text-sm uppercase tracking-widest mb-1 font-medium text-blue-600">
                 {companyName}
-          </div>
+              </div>
             )}
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
               {event?.name || 'Event Registration'}
             </h1>
           </div>
@@ -432,25 +467,30 @@ export default function EventRegistrationPage() {
                 month: 'long',
                 day: 'numeric'
               })}
-          </div>
-        )}
+            </div>
+          )}
         </header>
         
         {/* Form Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden card-shadow">
           {event?.image && (
-            <div className="w-full h-56 relative">
+            <div className="w-full h-64 relative">
               <Image
                 src={event.image}
                 alt={`${event.name} Event`}
                 fill
                 style={{ objectFit: 'cover' }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 w-full p-6">
+                <h2 className="text-2xl font-bold text-white drop-shadow-sm">
+                  Join us for this exclusive event
+                </h2>
+              </div>
             </div>
           )}
           
-          <div className="p-6">
+          <div className="p-6 md:p-8">
             {/* Loading State */}
             {loading && (
               <div className="py-12 flex justify-center items-center">
@@ -504,7 +544,7 @@ export default function EventRegistrationPage() {
             
             {/* Success State */}
             {success && (
-              <div className="py-8 text-center">
+              <div className="py-10 text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-6">
                   <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -513,24 +553,24 @@ export default function EventRegistrationPage() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Registration Successful</h3>
                 <p className="text-gray-600 mb-8">Thank you for registering for this event!</p>
                 
-                <div className="mb-8 text-left max-w-md mx-auto bg-blue-50 rounded-lg p-4">
+                <div className="mb-8 text-left max-w-md mx-auto bg-blue-50 rounded-lg p-5">
                   <h4 className="font-medium text-gray-900 mb-3">Event Details</h4>
-                  <p className="text-sm text-gray-600 mb-2">
+                  <p className="text-sm text-gray-600 mb-3">
                     <span className="font-medium">Date:</span> {event?.date ? new Date(event.date).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  }) : 'Date not specified'}
-                </p>
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    }) : 'Date not specified'}
+                  </p>
                   <p className="text-sm text-gray-600 whitespace-pre-line">
                     <span className="font-medium">Description:</span> {event?.description || 'No description available.'}
-                </p>
-              </div>
-              
+                  </p>
+                </div>
+                
                 <Link
                   href={`/${companyName}/${eventId}`}
-                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all duration-200"
                 >
                   Return to Event
                 </Link>
@@ -539,7 +579,7 @@ export default function EventRegistrationPage() {
             
             {/* Registration Form */}
             {!loading && !success && !eventDisabled && !companyDisabled && (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Form Error */}
                 {error && (
                   <div className="p-4 rounded-md bg-red-50 mb-6">
@@ -548,15 +588,15 @@ export default function EventRegistrationPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                       <p className="text-sm text-red-700">{error}</p>
+                    </div>
                   </div>
-                </div>
-              )}
-
+                )}
+                
                 {/* Personal Information */}
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Name */}
+                  <h3 className="section-title">Personal Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* Name */}
                     <div>
                       <label htmlFor="name" className="form-label">Full Name</label>
                       <input 
@@ -566,16 +606,16 @@ export default function EventRegistrationPage() {
                         className="form-input" 
                         placeholder="Enter your full name" 
                         value={formData.name}
-                            onChange={handleChange}
+                        onChange={handleChange}
                         disabled={submitting}
                         required
                       />
                       {formErrors.name && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.name}</p>
                       )}
-                  </div>
-
-                  {/* Phone */}
+                    </div>
+                    
+                    {/* Phone */}
                     <div>
                       <label htmlFor="phone" className="form-label">Phone Number</label>
                       <input 
@@ -585,16 +625,16 @@ export default function EventRegistrationPage() {
                         className="form-input" 
                         placeholder="Enter your phone number" 
                         value={formData.phone}
-                         onChange={handleChange}
+                        onChange={handleChange}
                         disabled={submitting}
                         required
                       />
                       {formErrors.phone && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.phone}</p>
                       )}
-                  </div>
-                  
-                  {/* Email */}
+                    </div>
+                    
+                    {/* Email */}
                     <div>
                       <label htmlFor="email" className="form-label">Email Address</label>
                       <input 
@@ -604,16 +644,16 @@ export default function EventRegistrationPage() {
                         className="form-input" 
                         placeholder="Enter your email address" 
                         value={formData.email}
-                            onChange={handleChange}
+                        onChange={handleChange}
                         disabled={submitting}
                         required
                       />
                       {formErrors.email && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>
                       )}
-                  </div>
-                  
-                  {/* Age */}
+                    </div>
+                    
+                    {/* Age */}
                     <div>
                       <label htmlFor="age" className="form-label">Age</label>
                       <input 
@@ -623,18 +663,18 @@ export default function EventRegistrationPage() {
                         className="form-input" 
                         placeholder="Enter your age" 
                         value={formData.age}
-                            onChange={handleChange}
+                        onChange={handleChange}
                         disabled={submitting}
                         required
                       />
                       {formErrors.age && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.age}</p>
                       )}
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* National ID */}
+                
+                {/* National ID */}
                 <div>
                   <label htmlFor="nationalId" className="form-label">National ID</label>
                   <input 
@@ -644,7 +684,7 @@ export default function EventRegistrationPage() {
                     className="form-input" 
                     placeholder="Enter your national ID" 
                     value={formData.nationalId}
-                       onChange={handleChange}
+                    onChange={handleChange}
                     disabled={submitting}
                     required
                   />
@@ -652,18 +692,18 @@ export default function EventRegistrationPage() {
                     <p className="mt-1 text-sm text-red-600">{formErrors.nationalId}</p>
                   )}
                   <p className="mt-1 text-xs text-gray-500 flex items-center">
-                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-3 h-3 mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    Your National ID will only be visible to administrators.
+                    <span>Your National ID will only be visible to administrators.</span>
                   </p>
-              </div>
-
+                </div>
+                
                 {/* Educational Information */}
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Educational Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* University */}
+                  <h3 className="section-title">Educational Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* University */}
                     <div>
                       <label htmlFor="university" className="form-label">University</label>
                       <input 
@@ -673,16 +713,16 @@ export default function EventRegistrationPage() {
                         className="form-input" 
                         placeholder="Enter your university" 
                         value={formData.university}
-                            onChange={handleChange}
+                        onChange={handleChange}
                         disabled={submitting}
                         required
                       />
                       {formErrors.university && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.university}</p>
                       )}
-                  </div>
-                  
-                  {/* College */}
+                    </div>
+                    
+                    {/* College */}
                     <div>
                       <label htmlFor="college" className="form-label">College</label>
                       <input 
@@ -692,25 +732,25 @@ export default function EventRegistrationPage() {
                         className="form-input" 
                         placeholder="Enter your college" 
                         value={formData.college}
-                       onChange={handleChange}
+                        onChange={handleChange}
                         disabled={submitting}
                         required
                       />
                       {formErrors.college && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.college}</p>
                       )}
+                    </div>
                   </div>
                 </div>
-              </div>
-
+                
                 {/* Gender and Status */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Gender */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Gender */}
                   <div>
                     <label className="form-label">Gender</label>
                     <div className="flex space-x-4">
-                      <label className={`flex items-center py-2 px-4 rounded-md border cursor-pointer ${formData.gender === 'male' ? 'bg-blue-50 border-blue-300' : 'bg-white border-gray-300'}`}>
-                      <input
+                      <label className={`flex-1 radio-label ${formData.gender === 'male' ? 'radio-label-selected' : ''}`}>
+                        <input
                           type="radio"
                           name="gender"
                           value="male"
@@ -721,8 +761,8 @@ export default function EventRegistrationPage() {
                         />
                         <span className={`${formData.gender === 'male' ? 'text-blue-800' : 'text-gray-700'}`}>Male</span>
                       </label>
-                      <label className={`flex items-center py-2 px-4 rounded-md border cursor-pointer ${formData.gender === 'female' ? 'bg-blue-50 border-blue-300' : 'bg-white border-gray-300'}`}>
-                      <input
+                      <label className={`flex-1 radio-label ${formData.gender === 'female' ? 'radio-label-selected' : ''}`}>
+                        <input
                           type="radio"
                           name="gender"
                           value="female"
@@ -733,15 +773,15 @@ export default function EventRegistrationPage() {
                         />
                         <span className={`${formData.gender === 'female' ? 'text-blue-800' : 'text-gray-700'}`}>Female</span>
                       </label>
-                </div>
-              </div>
-
-                {/* Status */}
+                    </div>
+                  </div>
+                  
+                  {/* Status */}
                   <div>
                     <label className="form-label">Status</label>
                     <div className="flex space-x-4">
-                      <label className={`flex items-center py-2 px-4 rounded-md border cursor-pointer ${formData.status === 'student' ? 'bg-blue-50 border-blue-300' : 'bg-white border-gray-300'}`}>
-                      <input
+                      <label className={`flex-1 radio-label ${formData.status === 'student' ? 'radio-label-selected' : ''}`}>
+                        <input
                           type="radio"
                           name="status"
                           value="student"
@@ -752,8 +792,8 @@ export default function EventRegistrationPage() {
                         />
                         <span className={`${formData.status === 'student' ? 'text-blue-800' : 'text-gray-700'}`}>Student</span>
                       </label>
-                      <label className={`flex items-center py-2 px-4 rounded-md border cursor-pointer ${formData.status === 'graduate' ? 'bg-blue-50 border-blue-300' : 'bg-white border-gray-300'}`}>
-                      <input
+                      <label className={`flex-1 radio-label ${formData.status === 'graduate' ? 'radio-label-selected' : ''}`}>
+                        <input
                           type="radio"
                           name="status"
                           value="graduate"
@@ -764,17 +804,17 @@ export default function EventRegistrationPage() {
                         />
                         <span className={`${formData.status === 'graduate' ? 'text-blue-800' : 'text-gray-700'}`}>Graduate</span>
                       </label>
+                    </div>
                   </div>
-              </div>
-              </div>
-
+                </div>
+                
                 {/* Submit Button */}
-                <div>
-                <button
-                  type="submit"
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
-                  disabled={submitting}
-                >
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                    disabled={submitting}
+                  >
                     {submitting ? (
                       <div className="flex items-center">
                         <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -786,18 +826,21 @@ export default function EventRegistrationPage() {
                     ) : (
                       "Register Now"
                     )}
-                </button>
-              </div>
-            </form>
-          )}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
         
         {/* Footer */}
-        <div className="mt-8 text-center">
-          <div className="text-xs text-gray-500">
+        <div className="mt-10 text-center">
+          <div className="inline-flex items-center justify-center text-xs text-gray-500">
+            <svg className="w-3 h-3 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
             <span>Powered by </span>
-            <span className="font-medium text-blue-600">illustraV</span>
+            <span className="font-medium text-blue-600 ml-1">illustraV</span>
           </div>
         </div>
       </div>
