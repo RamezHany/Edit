@@ -13,6 +13,8 @@ interface FormData {
   college: string;
   status: 'student' | 'graduate';
   nationalId: string;
+  age: string;
+  university: string;
 }
 
 interface FormErrors {
@@ -21,6 +23,8 @@ interface FormErrors {
   email?: string;
   college?: string;
   nationalId?: string;
+  age?: string;
+  university?: string;
 }
 
 interface Event {
@@ -48,6 +52,8 @@ export default function EventRegistrationPage() {
     college: '',
     status: 'student',
     nationalId: '',
+    age: '',
+    university: '',
   });
   
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -137,6 +143,16 @@ export default function EventRegistrationPage() {
         return value.trim() === '' ? 'College name is required' : '';
       case 'nationalId':
         return value.trim() === '' ? 'National ID is required' : '';
+      case 'age':
+        return value.trim() === '' 
+          ? 'Age is required' 
+          : !/^\d+$/.test(value) 
+            ? 'Age must be a number' 
+            : parseInt(value) < 16 || parseInt(value) > 80
+              ? 'Age must be between 16 and 80' 
+              : '';
+      case 'university':
+        return value.trim() === '' ? 'University name is required' : '';
       default:
         return '';
     }
@@ -231,6 +247,8 @@ export default function EventRegistrationPage() {
         college: '',
         status: 'student',
         nationalId: '',
+        age: '',
+        university: '',
       });
       setFormErrors({});
     } catch (error) {
@@ -382,7 +400,21 @@ export default function EventRegistrationPage() {
                   {formErrors.name && (
                       <p className="text-red-500 text-xs italic mt-1">{formErrors.name}</p>
                   )}
+              </div>
+              
+              <div className="relative z-0 w-full mb-5 group">
+                  <input type="text" name="age" id="age"
+                         className="block py-2.5 px-0 w-full pl-2 text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
+                         placeholder=" " value={formData.age}
+                         onChange={handleChange}
+                         disabled={submitting}  required/>
 
+                  <label htmlFor="age"
+                         className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
+                    Age - العمر 🎂 </label>
+                  {formErrors.age && (
+                      <p className="text-red-500 text-xs italic mt-1">{formErrors.age}</p>
+                  )}
               </div>
 
               <div className="relative z-0 w-full  mb-5 group">
@@ -568,6 +600,21 @@ export default function EventRegistrationPage() {
                 <p className="text-light text-[16px]     text-white  mt-3">
                   Your National ID will only be visible to administrators.
                 </p>
+              </div>
+
+              <div className="relative z-0 w-full mb-5 group">
+                  <input type="text" name="university" id="university"
+                         className="block py-2.5 px-0 w-full pl-2 text-sm rounded-xl text-white  bg-[#494f5b]  focus:border-gray-400  bg-transparent  border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0  peer"
+                         placeholder=" " value={formData.university}
+                         onChange={handleChange}
+                         disabled={submitting}  required/>
+
+                  <label htmlFor="university"
+                         className="ps-2  peer-focus:font-bold peer-focus:text-[20px]  text-white absolute text-[16px]  dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-9">
+                    University - الجامعة 🏫 </label>
+                  {formErrors.university && (
+                      <p className="text-red-500 text-xs italic mt-1">{formErrors.university}</p>
+                  )}
               </div>
 
               <div className="flex items-center justify-center">

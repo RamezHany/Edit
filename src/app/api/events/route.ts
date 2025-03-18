@@ -208,6 +208,8 @@ export async function POST(request: NextRequest) {
       'National ID',
       'Registration Date',
       'Image', // For the event banner
+      'Age', // Added field for age
+      'University', // Added field for university
       'EventDescription', // Event description
       'EventDate', // Event date
       'EventStatus', // enabled or disabled

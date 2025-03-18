@@ -16,6 +16,8 @@ export async function POST(request: NextRequest) {
       college,
       status,
       nationalId,
+      age,
+      university,
     } = body;
     
     // Ensure company name and event name are properly decoded
@@ -25,10 +27,10 @@ export async function POST(request: NextRequest) {
     console.log('=== REGISTRATION REQUEST RECEIVED ===');
     console.log('Company name (decoded):', companyName);
     console.log('Event name (decoded):', eventName);
-    console.log('Registrant:', { name, email, phone });
+    console.log('Registrant:', { name, email, phone, age, university });
     
     // Validate required fields
-    if (!companyName || !eventName || !name || !phone || !email || !gender || !college || !status || !nationalId) {
+    if (!companyName || !eventName || !name || !phone || !email || !gender || !college || !status || !nationalId || !age || !university) {
       console.log('Validation failed - missing fields:', {
         companyName: !!companyName,
         eventName: !!eventName,
@@ -39,6 +41,8 @@ export async function POST(request: NextRequest) {
         college: !!college,
         status: !!status,
         nationalId: !!nationalId,
+        age: !!age,
+        university: !!university,
       });
       
       return NextResponse.json(
@@ -61,6 +65,14 @@ export async function POST(request: NextRequest) {
     if (!phoneRegex.test(phone)) {
       return NextResponse.json(
         { error: 'Invalid phone number format' },
+        { status: 400 }
+      );
+    }
+    
+    // Validate age (must be a number)
+    if (!/^\d+$/.test(age)) {
+      return NextResponse.json(
+        { error: 'Age must be a number' },
         { status: 400 }
       );
     }
@@ -197,7 +209,7 @@ export async function POST(request: NextRequest) {
         console.log('=== ADDING REGISTRATION ===');
         console.log('Company name:', companyName);
         console.log('Event name (exact):', exactEventName);
-        console.log('Registrant:', { name, email });
+        console.log('Registrant:', { name, email, age, university });
         
         await addToTable(companyName, exactEventName, [
           name,
@@ -209,6 +221,8 @@ export async function POST(request: NextRequest) {
           nationalId,
           registrationDate,
           '', // No image for registrations
+          age,
+          university,
         ]);
         
         console.log('=== REGISTRATION SUCCESSFUL ===');
@@ -219,6 +233,8 @@ export async function POST(request: NextRequest) {
           registration: {
             name,
             email,
+            age,
+            university,
             eventName: exactEventName,
             registrationDate,
           },
