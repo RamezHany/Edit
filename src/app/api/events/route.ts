@@ -210,6 +210,7 @@ export async function POST(request: NextRequest) {
       'Image', // For the event banner
       'Age', // Added field for age
       'University', // Added field for university
+      'Level', // Added field for student level
       'EventDescription', // Event description
       'EventDate', // Event date
       'EventStatus', // enabled or disabled
