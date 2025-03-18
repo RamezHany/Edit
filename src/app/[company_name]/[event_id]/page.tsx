@@ -94,7 +94,7 @@ export default function EventDetailsPage() {
             <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-          </div>
+      </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">Event Not Found</h3>
           <p className="text-gray-500 mb-6">{error}</p>
           <Link href="/" className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800">
@@ -265,11 +265,26 @@ export default function EventDetailsPage() {
                 {event?.description || "No description available."}
               </p>
             </div>
+
+            {/* Registration count */}
+            <div className="mb-8 bg-blue-50 rounded-lg p-5">
+              <div className="flex items-center">
+                <div className="bg-blue-100 p-3 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="font-medium text-blue-900 text-lg">{event?.registrations || 0} people registered</h4>
+                  <p className="text-sm text-blue-700">Join them for this exclusive event!</p>
+                </div>
+              </div>
+            </div>
             
             {/* Registration button */}
             <div className="text-center">
               <button
-                onClick={handleRegisterClick}
+                  onClick={handleRegisterClick}
                 className="w-full md:w-auto flex justify-center py-3.5 px-6 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
               >
                 Register Now
