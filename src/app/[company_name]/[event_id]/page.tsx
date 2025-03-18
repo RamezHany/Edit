@@ -23,7 +23,6 @@ export default function EventDetailsPage() {
   const companyName = decodeURIComponent(params.company_name as string);
   const eventId = decodeURIComponent(params.event_id as string);
   
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [event, setEvent] = useState<Event | null>(null);
   const [eventDisabled, setEventDisabled] = useState(false);
@@ -33,7 +32,6 @@ export default function EventDetailsPage() {
     // Fetch event details
     const fetchEventDetails = async () => {
       try {
-        setLoading(false); // Set to false immediately so loading screen doesn't show
         console.log('Fetching events for company:', companyName);
         const response = await fetch(`/api/events?company=${encodeURIComponent(companyName)}`);
         
@@ -77,9 +75,6 @@ export default function EventDetailsPage() {
         if (!companyDisabled) {
           setError('Event not found or no longer available');
         }
-      } finally {
-        // Keep the finally block but don't set loading to false again
-        // as we already set it to false at the beginning
       }
     };
     
