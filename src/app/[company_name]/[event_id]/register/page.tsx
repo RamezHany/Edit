@@ -310,29 +310,45 @@ export default function EventRegistrationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-l from-[#1f2937f2] to-[#111827f2]">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-[#1f2937] to-blue-900 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+        <div className="absolute w-24 h-24 bg-blue-500 rounded-full top-1/4 left-1/4 animate-pulse"></div>
+        <div className="absolute w-16 h-16 bg-purple-500 rounded-full top-3/4 left-1/3 animate-ping"></div>
+        <div className="absolute w-32 h-32 bg-pink-500 rounded-full bottom-1/4 right-1/4 animate-pulse"></div>
+        <div className="absolute w-20 h-20 bg-yellow-500 rounded-full top-1/2 right-1/3 animate-bounce"></div>
+      </div>
+      
       {event?.image && (
-        <div className="w-full h-48 md:h-72 relative overflow-hidden">
-          <Image
-            src={event.image}
-            alt={`${companyName} - ${eventId} Event`}
-            fill
-            className="object-cover w-full hover:scale-105 transition-transform duration-700"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] to-transparent opacity-70"></div>
-          <div className="absolute bottom-0 left-0 w-full p-4 text-white">
+        <div className="w-full h-56 md:h-72 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-t from-purple-900 to-transparent opacity-60 z-10"></div>
+          <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-lg blur p-1 opacity-70 animate-gradient"></div>
+          <div className="absolute inset-5 md:inset-10 z-10 mx-auto h-36 md:h-48 w-36 md:w-48 rounded-full overflow-hidden border-4 border-white shadow-2xl transform hover:scale-105 transition-all duration-500">
+            <Image
+              src={event.image}
+              alt={`${companyName} - ${eventId} Event`}
+              fill
+              className="object-cover w-full"
+            />
+          </div>
+          <div className="absolute bottom-0 left-0 w-full p-4 text-white z-20">
             <h1 className="text-2xl md:text-4xl font-bold animate-pulse">{event?.name}</h1>
             <h2 className="text-lg md:text-2xl">Hosted by {companyName}</h2>
           </div>
         </div>
       )}
       
-      <div className="w-[95%] md:w-[80%] lg:w-[60%] mx-auto bg-[#353c49] rounded-lg shadow-xl overflow-hidden my-4 md:my-6 hover:shadow-2xl transition-all duration-300">
-        <div className="p-4 md:p-8">
+      <div className="w-[95%] md:w-[80%] lg:w-[60%] mx-auto bg-[#353c49]/90 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden my-4 md:my-6 hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] transition-all duration-500 border border-purple-500/30">
+        <div className="p-4 md:p-8 relative">
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-500 rounded-bl-full opacity-20"></div>
+          <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-blue-500 to-green-500 rounded-tr-full opacity-20"></div>
+          
           {!event?.image && (
             <>
-              <h1 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 text-white">
+              <h1 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 text-white relative inline-block">
                 Register for {event?.name} ✨
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-blue-500 rounded"></span>
               </h1>
               <h2 className="text-lg md:text-2xl text-gray-200 mb-4 md:mb-6">
                 Hosted by {companyName} 🎉
@@ -342,11 +358,18 @@ export default function EventRegistrationPage() {
           
           {success ? (
             <div className="text-center text-white">
-              <div className="bg-green-700 border border-green-600 px-4 py-3 rounded mb-4 md:mb-6 animate-bounce">
-                <p className="font-bold">Registration Successful! 🎊</p>
-                <p>Thank you for registering for this event!</p>
+              <div className="bg-green-700/80 backdrop-blur-sm border border-green-400 px-4 py-6 rounded-2xl mb-4 md:mb-6 relative overflow-hidden group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-emerald-400 rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
+                <div className="relative flex flex-col items-center">
+                  <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-3 animate-bounce">
+                    <span className="text-4xl">🎊</span>
+                  </div>
+                  <p className="font-bold text-xl">Registration Successful!</p>
+                  <p className="text-lg">Thank you for registering for this event!</p>
+                </div>
               </div>
               
+              {/* Rest of success content */}
               <div className="mb-4">
                 <h3 className="text-lg font-semibold mb-2">Event Details:</h3>
                 <p className="text-white mb-2">
@@ -365,131 +388,186 @@ export default function EventRegistrationPage() {
               <div className="flex justify-center">
                 <Link
                   href={`/${companyName}/${eventId}`}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+                  className="relative inline-flex group items-center justify-center px-6 py-3 font-bold text-white transition-all duration-300 ease-in-out bg-gradient-to-br from-blue-600 to-purple-600 rounded-full overflow-hidden"
                 >
-                  Return to Event 🔙
+                  <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform group-hover:scale-110"></span>
+                  <span className="relative flex items-center">
+                    Return to Event
+                    <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                  </span>
                 </Link>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-2 md:space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-3 relative">
               {error && (
-                <div className="bg-red-700 border border-red-600 text-white px-3 py-2 rounded mb-3">
-                  {error} 😥
+                <div className="bg-red-700/80 backdrop-blur-sm border border-red-400 text-white px-4 py-3 rounded-xl mb-4">
+                  <div className="flex items-center">
+                    <span className="text-2xl mr-2">⚠️</span>
+                    <p>{error}</p>
+                  </div>
                 </div>
               )}
 
               {/* Personal Information Section */}
-              <div className="mb-0 md:mb-1">
-                <h3 className="text-base md:text-lg font-medium text-white mb-1 md:mb-2 flex items-center">
-                  <span className="mr-2 animate-pulse">👤</span> Personal Information
+              <div className="mb-1 md:mb-2">
+                <h3 className="text-base md:text-lg font-medium text-white mb-2 flex items-center">
+                  <span className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center mr-2">👤</span>
+                  <span className="relative">
+                    Personal Information
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-pink-500 to-transparent"></span>
+                  </span>
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {/* Name */}
-                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
-                    <input type="text" name="name" id="name"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
-                          placeholder="Name - الاسم 👋" value={formData.name}
-                          onChange={handleChange}
-                          disabled={submitting} required/>
-                    {formErrors.name && (
-                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.name}</p>
-                    )}
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-pink-500/50 to-purple-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
+                    <div className="relative">
+                      <input type="text" name="name" id="name"
+                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-purple-500 group-hover:bg-[#414958] transition-all duration-300"
+                            placeholder="Name - الاسم 👋" value={formData.name}
+                            onChange={handleChange}
+                            disabled={submitting} required/>
+                      {formErrors.name && (
+                          <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
+                            <span className="text-red-500 mr-1">⚠️</span> {formErrors.name}
+                          </p>
+                      )}
+                    </div>
                   </div>
 
                   {/* Phone */}
-                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
-                    <input type="text" name="phone" id="phone"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
-                          placeholder="Phone - رقم الهاتف 📱" value={formData.phone}
-                          onChange={handleChange}
-                          disabled={submitting} required/>
-                    {formErrors.phone && (
-                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.phone}</p>
-                    )}
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/50 to-teal-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
+                    <div className="relative">
+                      <input type="text" name="phone" id="phone"
+                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover:bg-[#414958] transition-all duration-300"
+                            placeholder="Phone - رقم الهاتف 📱" value={formData.phone}
+                            onChange={handleChange}
+                            disabled={submitting} required/>
+                      {formErrors.phone && (
+                          <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
+                            <span className="text-red-500 mr-1">⚠️</span> {formErrors.phone}
+                          </p>
+                      )}
+                    </div>
                   </div>
                   
                   {/* Email */}
-                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
-                    <input type="email" name="email" id="email"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
-                          placeholder="Email - البريد الإلكتروني 📧" value={formData.email}
-                          onChange={handleChange}
-                          disabled={submitting} required/>
-                    {formErrors.email && (
-                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.email}</p>
-                    )}
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/50 to-indigo-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
+                    <div className="relative">
+                      <input type="email" name="email" id="email"
+                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 group-hover:bg-[#414958] transition-all duration-300"
+                            placeholder="Email - البريد الإلكتروني 📧" value={formData.email}
+                            onChange={handleChange}
+                            disabled={submitting} required/>
+                      {formErrors.email && (
+                          <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
+                            <span className="text-red-500 mr-1">⚠️</span> {formErrors.email}
+                          </p>
+                      )}
+                    </div>
                   </div>
                   
                   {/* Age */}
-                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
-                    <input type="text" name="age" id="age"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
-                          placeholder="Age - العمر 🎂" value={formData.age}
-                          onChange={handleChange}
-                          disabled={submitting} required/>
-                    {formErrors.age && (
-                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.age}</p>
-                    )}
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500/50 to-orange-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
+                    <div className="relative">
+                      <input type="text" name="age" id="age"
+                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 group-hover:bg-[#414958] transition-all duration-300"
+                            placeholder="Age - العمر 🎂" value={formData.age}
+                            onChange={handleChange}
+                            disabled={submitting} required/>
+                      {formErrors.age && (
+                          <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
+                            <span className="text-red-500 mr-1">⚠️</span> {formErrors.age}
+                          </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* National ID */}
-              <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
-                <input type="text" name="nationalId" id="nationalId"
-                      className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
-                      placeholder="National ID - الرقم القومي 🪪" value={formData.nationalId}
-                      onChange={handleChange}
-                      disabled={submitting} required/>
-                {formErrors.nationalId && (
-                    <p className="text-red-500 text-xs italic mt-0.5">{formErrors.nationalId}</p>
-                )}
-                <p className="text-gray-300 text-xs mt-0.5">Your National ID will only be visible to administrators. 🔒</p>
+              <div className="relative group mb-3">
+                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/50 to-emerald-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
+                <div className="relative">
+                  <input type="text" name="nationalId" id="nationalId"
+                        className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-emerald-500 group-hover:bg-[#414958] transition-all duration-300"
+                        placeholder="National ID - الرقم القومي 🪪" value={formData.nationalId}
+                        onChange={handleChange}
+                        disabled={submitting} required/>
+                  {formErrors.nationalId && (
+                      <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
+                        <span className="text-red-500 mr-1">⚠️</span> {formErrors.nationalId}
+                      </p>
+                  )}
+                  <p className="text-gray-300 text-xs mt-1 ml-2 flex items-center">
+                    <span className="mr-1">🔒</span> Your National ID will only be visible to administrators.
+                  </p>
+                </div>
               </div>
 
               {/* Educational Information Section */}
-              <div className="mb-0 md:mb-1 pt-1 md:pt-2">
-                <h3 className="text-base md:text-lg font-medium text-white mb-1 md:mb-2 flex items-center">
-                  <span className="mr-2 animate-pulse">🎓</span> Educational Information
+              <div className="mb-1 md:mb-2 pt-1 md:pt-2">
+                <h3 className="text-base md:text-lg font-medium text-white mb-2 flex items-center">
+                  <span className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center mr-2">🎓</span>
+                  <span className="relative">
+                    Educational Information
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-transparent"></span>
+                  </span>
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {/* University */}
-                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
-                    <input type="text" name="university" id="university"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
-                          placeholder="University - الجامعة 🏫" value={formData.university}
-                          onChange={handleChange}
-                          disabled={submitting} required/>
-                    {formErrors.university && (
-                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.university}</p>
-                    )}
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/50 to-blue-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
+                    <div className="relative">
+                      <input type="text" name="university" id="university"
+                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover:bg-[#414958] transition-all duration-300"
+                            placeholder="University - الجامعة 🏫" value={formData.university}
+                            onChange={handleChange}
+                            disabled={submitting} required/>
+                      {formErrors.university && (
+                          <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
+                            <span className="text-red-500 mr-1">⚠️</span> {formErrors.university}
+                          </p>
+                      )}
+                    </div>
                   </div>
                   
                   {/* College */}
-                  <div className="relative z-0 w-full mb-1 group transform transition duration-300 hover:translate-y-[-2px]">
-                    <input type="text" name="college" id="college"
-                          className="block w-full p-2 pl-2 text-sm rounded-lg text-white bg-[#494f5b] border border-gray-600 focus:border-blue-400 focus:outline-none hover:border-blue-300 transition-colors"
-                          placeholder="College - الكلية 🏛️" value={formData.college}
-                          onChange={handleChange}
-                          disabled={submitting} required/>
-                    {formErrors.college && (
-                        <p className="text-red-500 text-xs italic mt-0.5">{formErrors.college}</p>
-                    )}
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-green-500/50 to-teal-500/50 rounded-lg blur opacity-25 group-hover:opacity-80 transition duration-500"></div>
+                    <div className="relative">
+                      <input type="text" name="college" id="college"
+                            className="block w-full p-3 text-sm rounded-xl text-white bg-[#3b4251] border-none focus:outline-none focus:ring-2 focus:ring-teal-500 group-hover:bg-[#414958] transition-all duration-300"
+                            placeholder="College - الكلية 🏛️" value={formData.college}
+                            onChange={handleChange}
+                            disabled={submitting} required/>
+                      {formErrors.college && (
+                          <p className="text-red-400 text-xs italic mt-1 ml-2 flex items-center">
+                            <span className="text-red-500 mr-1">⚠️</span> {formErrors.college}
+                          </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Gender and Status Section - Changed to be in one row on mobile */}
-              <div className="grid grid-cols-2 gap-2 mt-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
                 {/* Gender */}
-                <div className="mb-1 transform transition duration-300 hover:translate-y-[-2px]">
-                  <label className="block text-sm font-medium text-white mb-1 flex items-center">
-                    <span className="mr-1">👫</span> Gender - الجنس
+                <div className="relative">
+                  <label className="text-sm font-medium text-white mb-2 flex items-center">
+                    <span className="w-6 h-6 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 flex items-center justify-center mr-2">👫</span>
+                    Gender - الجنس
                   </label>
-                  <div className="flex flex-col sm:flex-row sm:space-x-4">
-                    <div className="flex items-center mb-1 sm:mb-0 hover:bg-[#454d5d] p-1 rounded-md transition-colors">
-                      <input
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="relative">
+                      <input 
                         type="radio"
                         id="gender-male"
                         name="gender"
@@ -497,14 +575,17 @@ export default function EventRegistrationPage() {
                         checked={formData.gender === "male"}
                         onChange={handleChange}
                         disabled={submitting}
-                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
+                        className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
-                      <label htmlFor="gender-male" className="ml-2 text-sm font-medium text-white">
-                        Male - ذكر 👨
-                      </label>
+                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.gender === "male" ? 'bg-gradient-to-r from-blue-600 to-blue-400 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
+                        <div className="text-center">
+                          <span className="text-2xl block mb-1">👨</span>
+                          <span className={`text-sm font-medium ${formData.gender === "male" ? 'text-white' : 'text-gray-300'}`}>Male - ذكر</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center hover:bg-[#454d5d] p-1 rounded-md transition-colors">
-                      <input
+                    <div className="relative">
+                      <input 
                         type="radio"
                         id="gender-female"
                         name="gender"
@@ -512,23 +593,27 @@ export default function EventRegistrationPage() {
                         checked={formData.gender === "female"}
                         onChange={handleChange}
                         disabled={submitting}
-                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
+                        className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
-                      <label htmlFor="gender-female" className="ml-2 text-sm font-medium text-white">
-                        Female - أنثى 👩
-                      </label>
+                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.gender === "female" ? 'bg-gradient-to-r from-pink-600 to-pink-400 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
+                        <div className="text-center">
+                          <span className="text-2xl block mb-1">👩</span>
+                          <span className={`text-sm font-medium ${formData.gender === "female" ? 'text-white' : 'text-gray-300'}`}>Female - أنثى</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Status */}
-                <div className="mb-1 transform transition duration-300 hover:translate-y-[-2px]">
-                  <label className="block text-sm font-medium text-white mb-1 flex items-center">
-                    <span className="mr-1">🧑‍🎓</span> Status - الحالة
+                <div className="relative">
+                  <label className="text-sm font-medium text-white mb-2 flex items-center">
+                    <span className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-400 to-indigo-400 flex items-center justify-center mr-2">🧑‍🎓</span>
+                    Status - الحالة
                   </label>
-                  <div className="flex flex-col sm:flex-row sm:space-x-4">
-                    <div className="flex items-center mb-1 sm:mb-0 hover:bg-[#454d5d] p-1 rounded-md transition-colors">
-                      <input
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="relative">
+                      <input 
                         type="radio"
                         id="status-student"
                         name="status"
@@ -536,14 +621,17 @@ export default function EventRegistrationPage() {
                         checked={formData.status === "student"}
                         onChange={handleChange}
                         disabled={submitting}
-                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
+                        className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
-                      <label htmlFor="status-student" className="ml-2 text-sm font-medium text-white">
-                        Student - طالب 📚
-                      </label>
+                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.status === "student" ? 'bg-gradient-to-r from-purple-600 to-indigo-600 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
+                        <div className="text-center">
+                          <span className="text-2xl block mb-1">📚</span>
+                          <span className={`text-sm font-medium ${formData.status === "student" ? 'text-white' : 'text-gray-300'}`}>Student - طالب</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center hover:bg-[#454d5d] p-1 rounded-md transition-colors">
-                      <input
+                    <div className="relative">
+                      <input 
                         type="radio"
                         id="status-graduate"
                         name="status"
@@ -551,23 +639,41 @@ export default function EventRegistrationPage() {
                         checked={formData.status === "graduate"}
                         onChange={handleChange}
                         disabled={submitting}
-                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-600"
+                        className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
-                      <label htmlFor="status-graduate" className="ml-2 text-sm font-medium text-white">
-                        Graduate - خريج 🎓
-                      </label>
+                      <div className={`h-full flex items-center justify-center p-3 rounded-xl transition-all duration-300 ${formData.status === "graduate" ? 'bg-gradient-to-r from-green-600 to-teal-600 scale-105 shadow-lg' : 'bg-[#3b4251] hover:bg-[#414958]'}`}>
+                        <div className="text-center">
+                          <span className="text-2xl block mb-1">🎓</span>
+                          <span className={`text-sm font-medium ${formData.status === "graduate" ? 'text-white' : 'text-gray-300'}`}>Graduate - خريج</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-center mt-4">
+              <div className="flex items-center justify-center mt-6">
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  className="relative overflow-hidden group inline-flex items-center rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-3 text-lg font-bold text-white transition-all duration-300 ease-in-out hover:shadow-[0_0_15px_rgba(124,58,237,0.5)] hover:scale-105"
                   disabled={submitting}
                 >
-                  {submitting ? 'Submitting... ⏳' : '✨ Register Now! ✨'}
+                  <span className="absolute h-0 w-0 rounded-full bg-white opacity-10 transition-all duration-300 ease-out group-hover:h-56 group-hover:w-56"></span>
+                  <span className="relative flex items-center">
+                    {submitting ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <span className="mr-2">✨</span> Register Now! <span className="ml-2">✨</span>
+                      </>
+                    )}
+                  </span>
                 </button>
               </div>
             </form>
