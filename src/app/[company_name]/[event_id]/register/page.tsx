@@ -639,7 +639,7 @@ export default function EventRegistrationPage() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                </div>
               </div>
 
                 {/* Status */}
