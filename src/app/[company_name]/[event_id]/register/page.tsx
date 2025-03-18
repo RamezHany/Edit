@@ -607,8 +607,8 @@ export default function EventRegistrationPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">You're In! <span className="emoji-icon">🎉</span></h3>
-                <p className="text-gray-600 mb-8">Thanks for registering! We can't wait to see you there!</p>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">You&apos;re In! <span className="emoji-icon">🎉</span></h3>
+                <p className="text-gray-600 mb-8">Thanks for registering! We can&apos;t wait to see you there!</p>
                 
                 <div className="mb-8 text-left max-w-md mx-auto bg-indigo-50 rounded-lg p-5">
                   <h4 className="font-medium text-indigo-900 mb-3">Event Details</h4>
@@ -884,7 +884,7 @@ export default function EventRegistrationPage() {
                       "JOIN NOW! 🚀"
                     )}
                 </button>
-                <p className="text-center text-sm text-gray-500 mt-3">By registering, you're taking an awesome step!</p>
+                <p className="text-center text-sm text-gray-500 mt-3">By registering, you&apos;re taking an awesome step!</p>
               </div>
             </form>
           )}
