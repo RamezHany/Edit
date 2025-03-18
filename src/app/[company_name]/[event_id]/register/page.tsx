@@ -179,7 +179,7 @@ export default function EventRegistrationPage() {
       case 'age':
         return value.trim() === '' 
           ? 'Age is required' 
-          : !/^\d+$/.test(value) 
+          : !/^\d9+$/.test(value) 
             ? 'Age must be a number' 
             : parseInt(value) < 16 || parseInt(value) > 80
               ? 'Age must be between 16 and 80' 
@@ -362,6 +362,19 @@ export default function EventRegistrationPage() {
         
         .transition-colors {
           transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        @keyframes shine {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        .animate-shine {
+          animation: shine 3s infinite linear;
         }
       `}</style>
       
@@ -787,6 +800,64 @@ export default function EventRegistrationPage() {
               </div>
             </form>
           )}
+        </div>
+
+        {/* Alestra footer */}
+        <div className={`relative mt-6 mb-4 px-4 text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+          <div className="relative flex flex-col items-center justify-center space-y-3">
+            {/* Divider with animated glow */}
+            <div className="flex items-center justify-center space-x-3 relative">
+              <div className={`h-px w-20 ${theme === 'dark' ? 'bg-gradient-to-r from-transparent via-purple-500 to-transparent' : 'bg-gradient-to-r from-transparent via-indigo-400 to-transparent'}`}></div>
+              
+              {/* Logo with glow effect */}
+              <div className="relative group">
+                <div className={`absolute -inset-1 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-500 ${theme === 'dark' ? 'bg-purple-600/30' : 'bg-indigo-400/30'}`}></div>
+                <div className={`relative flex items-center justify-center w-12 h-12 rounded-full shadow-lg ${theme === 'dark' ? 'bg-gradient-to-br from-indigo-900 via-purple-900 to-purple-800' : 'bg-gradient-to-br from-indigo-200 via-purple-200 to-purple-100'} overflow-hidden`}>
+                  {/* Animated background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-90"></div>
+                  
+                  {/* Animated shine effect */}
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-0 -left-[100%] h-full w-[250%] animate-shine bg-gradient-to-r from-transparent via-white to-transparent" 
+                         style={{ animationDuration: '3s' }}></div>
+                  </div>
+                  
+                  {/* Logo Text */}
+                  <span className="relative text-lg font-bold text-white flex items-center">
+                    <span className="relative z-10">A</span>
+                    <span className="absolute top-0 left-0 text-lg font-bold text-white blur-[1px] opacity-70 z-0">A</span>
+                  </span>
+                </div>
+              </div>
+              
+              <div className={`h-px w-20 ${theme === 'dark' ? 'bg-gradient-to-r from-transparent via-purple-500 to-transparent' : 'bg-gradient-to-r from-transparent via-indigo-400 to-transparent'}`}></div>
+            </div>
+            
+            {/* Text with animated gradient */}
+            <div className="flex items-center space-x-1 group">
+              <span>Powered by</span>
+              <span className="relative font-bold">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-500 group-hover:from-indigo-500 group-hover:to-purple-600 transition-all duration-500">Alestra</span>
+                {/* Subtle underline animation */}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-indigo-500 group-hover:w-full transition-all duration-500"></span>
+              </span>
+              <span className="text-xs">™</span>
+            </div>
+            
+            {/* Tagline with subtle animation */}
+            <div className="overflow-hidden">
+              <p className="text-xs opacity-75 max-w-xs mx-auto transform hover:scale-105 transition-transform duration-300">
+                Beautiful event registration platforms for creating memorable experiences
+              </p>
+            </div>
+            
+            {/* Sparkles for decoration */}
+            <div className="absolute -top-3 -left-2 w-full h-full pointer-events-none opacity-50">
+              <div className={`absolute top-1/2 left-1/4 w-1 h-1 rounded-full ${theme === 'dark' ? 'bg-purple-400' : 'bg-indigo-400'} animate-ping`} style={{ animationDuration: '3s' }}></div>
+              <div className={`absolute top-1/4 right-1/3 w-1 h-1 rounded-full ${theme === 'dark' ? 'bg-indigo-400' : 'bg-purple-400'} animate-ping`} style={{ animationDuration: '2.5s' }}></div>
+              <div className={`absolute bottom-1/2 right-1/4 w-1 h-1 rounded-full ${theme === 'dark' ? 'bg-pink-400' : 'bg-pink-300'} animate-ping`} style={{ animationDuration: '4s' }}></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
