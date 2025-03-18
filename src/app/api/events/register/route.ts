@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
       nationalId,
       age,
       university,
+      level,
     } = body;
     
     // Ensure company name and event name are properly decoded
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
     console.log('=== REGISTRATION REQUEST RECEIVED ===');
     console.log('Company name (decoded):', companyName);
     console.log('Event name (decoded):', eventName);
-    console.log('Registrant:', { name, email, phone, age, university });
+    console.log('Registrant:', { name, email, phone, age, university, status, level });
     
     // Validate required fields
     if (!companyName || !eventName || !name || !phone || !email || !gender || !college || !status || !nationalId || !age || !university) {
@@ -43,6 +44,7 @@ export async function POST(request: NextRequest) {
         nationalId: !!nationalId,
         age: !!age,
         university: !!university,
+        level: !!level,
       });
       
       return NextResponse.json(
@@ -209,7 +211,7 @@ export async function POST(request: NextRequest) {
         console.log('=== ADDING REGISTRATION ===');
         console.log('Company name:', companyName);
         console.log('Event name (exact):', exactEventName);
-        console.log('Registrant:', { name, email, age, university });
+        console.log('Registrant:', { name, email, age, university, status, level });
         
         await addToTable(companyName, exactEventName, [
           name,
@@ -223,6 +225,7 @@ export async function POST(request: NextRequest) {
           '', // No image for registrations
           age,
           university,
+          level || '',
         ]);
         
         console.log('=== REGISTRATION SUCCESSFUL ===');
