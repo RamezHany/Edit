@@ -759,7 +759,7 @@ export default function EventRegistrationPage() {
                       {formErrors.university && (
                         <p className="mt-1 text-sm text-red-600">{formErrors.university}</p>
                       )}
-                  </div>
+                    </div>
                   
                   {/* Faculty */}
                     <div>
