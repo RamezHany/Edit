@@ -211,7 +211,6 @@ export async function POST(request: NextRequest) {
       'Age', // Added field for age
       'University', // Added field for university
       'Level', // Added field for student level
-      'Faculty', // Added field for faculty
       'EventDescription', // Event description
       'EventDate', // Event date
       'EventStatus', // enabled or disabled
